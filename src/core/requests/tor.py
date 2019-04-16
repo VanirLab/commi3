@@ -24,7 +24,7 @@ import urllib
 import random
 import html5lib
 import socket
-import socks
+
 
 
 from urllib.request import urlopen
