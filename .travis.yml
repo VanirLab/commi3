@@ -1,4 +1,5 @@
 language: python            # this works for Linux but is an error on macOS or Windows
+cache: pip
 directories:
 - $HOME/.cache/pip
 matrix:
