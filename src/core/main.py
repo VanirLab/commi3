@@ -17,7 +17,7 @@ import os
 import sys, types
 import errno
 import random
-#import requests
+import requests
 import request
 import __future__ 
 import urllib.request, urllib.parse, urllib.error
