@@ -1,4 +1,4 @@
 [run]
 branch = True
-source=commi3
+
 include = commi3/*
