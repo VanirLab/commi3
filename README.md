@@ -32,7 +32,7 @@ Developers assume no liability and are not responsible for any misuse or damage 
 ```python
 CL: pip install -r requirements.txt
 
-CL: python setup.py install || python3 setup.py install
+CL: python setup.py install | python3 setup.py install
 
 ```
 
