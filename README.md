@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="VanirLab" src="" height="142" />
+  <img alt="VanirLab" src="https://github.com/VanirLab/commi3/blob/master/commi3.png" height="142" />
   <p align="center">
     <a href="https://api.travis-ci.org/VanirLab/commi3"><img alt="Build Status" src="https://api.travis-ci.org/VanirLab/commi3.svg?branch=master"></a>
     <a href="https://github.com/VanirLab/commi3/releases/tag/><img alt="Version 1.0" src="https://img.shields.io/badge/Version-1.0-green.svg"></a>
