@@ -1,6 +1,6 @@
 language: python
 python:
-	- "3.6"
-	- "3.7"
+- "3.6"
+- "3.7"
 script:
-    - python -c "import commi3"
+- python -c "import commi3"
