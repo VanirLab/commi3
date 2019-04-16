@@ -4,5 +4,5 @@ update_configs:
 
 
   - package_manager: "python"
-    directory: "/python/helpers"
+    directory: "/src/"
     update_schedule: "live"
