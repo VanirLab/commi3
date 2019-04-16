@@ -31,6 +31,7 @@ Developers assume no liability and are not responsible for any misuse or damage 
 
 ```python
 pip install -r requirements.txt
+pip install setup.py
 ```
 
 
@@ -65,7 +66,18 @@ Commi3 also comes **as a plugin**, on the following penetration testing framewor
 
 - Linux
 - Mac OS X
-- Windows 
+- Windows
+
+## Plugins: 
+- Inject python code in Commi3 for your exploits
+```python
+
+{
+    '0x000001': <module: 'my_new_exploit'>,
+    '0x000023': <module: 'my_updated_exploit'>,
+}
+
+```
 
 ## Usage
 
