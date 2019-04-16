@@ -21,7 +21,7 @@ matrix:
       language: shell       # 'language: python' is an error on Travis CI Windows
       before_install: choco install python
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
-script: python -c "import commi3"
+script: pytest
 install: python setup.py install
 after_success:
   # Upload coverage data to codecov
