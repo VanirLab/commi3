@@ -9,5 +9,6 @@ bs4
 dns-lexicon
 colorama
 request
+html5lib
 requests
 pyfiglet
