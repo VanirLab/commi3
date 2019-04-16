@@ -5,7 +5,7 @@
     <a href="https://github.com/VanirLab/commi3/releases/tag/><img alt="Version 1.0" src="https://img.shields.io/badge/Version-1.0-green.svg"></a>
     <a href="http://www.python.org/download/"><img alt="Python 3.6-3.7" src="https://img.shields.io/badge/Python-3.6--3.7-yellow.svg"></a>
     <a href="https://github.com/VanirLab/commi3/blob/master/readme/COPYING"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-red.svg"></a>
-
+<a href='https://semaphoreci.com/vanirlab/commi3'> <img src='https://semaphoreci.com/api/v1/vanirlab/commi3/branches/master/badge.svg' alt='Build Status'></a>
   </p>
 </p>
 
