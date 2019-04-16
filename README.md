@@ -69,7 +69,7 @@ Commi3 also comes **as a plugin**, on the following penetration testing framewor
 - Windows
 
 ## Plugins: 
-- Inject python code in Commi3 for your exploits
+- Inject python code in Commi3 for custom exploits
 ```python
 
 {
