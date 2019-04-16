@@ -21,8 +21,7 @@ matrix:
 install:
 - pip install --upgrade pip  # all three OSes agree about 'pip3'in version 3.6 < 3.0
 - pip install -r requirements.txt
-  # Self
-- pip install -e .
+
 
 
 after_success:
