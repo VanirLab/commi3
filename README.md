@@ -11,7 +11,7 @@
 
 ## General Information
 
-**Commi3** (short for [**c**]ryptoanalytic [**o**]ffensive [**m**]ultifunctional [**m**]icrostructure  [**i**]njection [**3**] generation 3) is an Automated Commando Line Tool   (ACLT)
+**Commi3** (short for [**c**]ryptoanalytic [**o**]ffensive [**m**]ultifunctional [**m**]icrostructure  [**i**]njection [**3**] generation 3) is an Automated Command Line Tool   (ACLT)
 that can be used from web developers, penetration testers or even security researchers in order to test web-based applications 
 with the view to find bugs, errors or vulnerabilities related to **[command injection](https://www.owasp.org/index.php/Command_Injection)** attacks.
  By using this tool, it is very easy to find and exploit a command injection vulnerability in a certain vulnerable parameter or HTTP/HTTPS header.
