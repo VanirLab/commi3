@@ -30,7 +30,9 @@ Developers assume no liability and are not responsible for any misuse or damage 
 **[Python](http://www.python.org/download/)** version **3.6.x** or **3.7.x** is required for running this program.
 
 ```python
-pip install -r requirements.txt
+CL: pip install -r requirements.txt
+
+CL: python setup.py install || python3 setup.py install
 
 ```
 
