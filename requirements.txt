@@ -1,0 +1,13 @@
+coverage
+codecov
+django
+docutils
+jinja2
+lxml
+pylint
+bs4
+dns-lexicon
+colorama
+request
+requests
+pyfiglet
