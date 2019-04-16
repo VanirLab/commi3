@@ -31,7 +31,7 @@ Developers assume no liability and are not responsible for any misuse or damage 
 
 ```python
 pip install -r requirements.txt
-pip install setup.py
+
 ```
 
 
