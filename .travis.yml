@@ -1,5 +1,7 @@
 language: python            # this works for Linux but is an error on macOS or Windows
 cache: pip
+  script:
+    - pytest
 directories:
 - $HOME/.cache/pip
 matrix:
