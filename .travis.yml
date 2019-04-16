@@ -24,11 +24,7 @@ install:
   # Self
 - pip install -e .
 
-before_script:
-  # Create 'sudouser' w/ sudo password & perms on Travis' homedir
-  - inv travis.make-sudouser
-  # Allow us to SSH passwordless to localhost
-  - inv travis.make-sshable
+
 script:
   # Fast syntax check failures for more rapid feedback to submitters
   # (Travis-oriented metatask that version checks Python, installs, runs.)
