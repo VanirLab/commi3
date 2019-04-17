@@ -16,7 +16,7 @@ import sys
 import json
 
 import hashlib
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import _thread
 from urllib.request import urlopen
 import traceback 
@@ -56,7 +56,7 @@ def create_github_issue(err_msg, exc_msg):
         return
       else:
         err_msg = "'" + choise + "' is not a valid answer."  
-        print (settings.print_error_msg(err_msg))
+        print((settings.print_error_msg(err_msg)))
         pass
     except: 
       print ("\n")
@@ -78,7 +78,7 @@ def create_github_issue(err_msg, exc_msg):
           warn_msg += " and resolved. Please update to the latest "
           warn_msg += "(dev) version from official GitHub repository at '" + settings.GIT_URL + "'"
       warn_msg += ".\n"   
-      print (settings.print_warning_msg(warn_msg))
+      print((settings.print_warning_msg(warn_msg)))
       return
   except:
     pass
@@ -97,12 +97,12 @@ def create_github_issue(err_msg, exc_msg):
 
   if issue_url:
     info_msg = "The created Github issue can been found at the address '" + str(issue_url.group(0)) + "'.\n"
-    print (settings.print_info_msg(info_msg))
+    print((settings.print_info_msg(info_msg)))
   else:
     warn_msg = "Something went wrong while creating a Github issue."
     if "Unauthorized" in str(err):
       warn_msg += " Please update to the latest revision.\n"
-    print (settings.print_warning_msg(warn_msg))
+    print((settings.print_warning_msg(warn_msg)))
 
 """
 Masks sensitive data in the supplied message.
@@ -124,34 +124,34 @@ def unhandled_exception():
     match = re.search(r"\s*(.+)\s+ValueError", exc_msg)
     err_msg = "Identified corrupted .pyc file(s)."
     err_msg += "Please delete .pyc files on your system to fix the problem."
-    print (settings.print_critical_msg(err_msg) )
+    print((settings.print_critical_msg(err_msg) ))
     raise SystemExit()
 
   elif "must be pinned buffer, not bytearray" in exc_msg:
     err_msg = "Error occurred at Python interpreter which "
     err_msg += "is fixed in 2.7.x. Please update accordingly. "
     err_msg += "(Reference: https://bugs.python.org/issue8104)"
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
   elif "MemoryError" in exc_msg:
     err_msg = "Memory exhaustion detected."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
   elif any(_ in exc_msg for _ in ("No space left", "Disk quota exceeded")):
     err_msg = "No space left on output device."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
   elif "Read-only file system" in exc_msg:
     errMsg = "Output device is mounted as read-only."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
   elif "OperationalError: disk I/O error" in exc_msg:
     errMsg = "I/O error on output device."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
   else:
@@ -169,8 +169,8 @@ def unhandled_exception():
     err_msg += "Command line: " + re.sub(r".+?\bcommi3\.py\b", "commi3.py", " ".join(sys.argv)) + "\n"
     err_msg = mask_sensitive_data(err_msg)
     exc_msg = re.sub(r'".+?[/\\](\w+\.py)', "\"\g<1>", exc_msg)
-    print (settings.print_critical_msg(err_msg + "\n" + exc_msg.rstrip()))
-    print (create_github_issue(err_msg, exc_msg))
+    print((settings.print_critical_msg(err_msg + "\n" + exc_msg.rstrip())))
+    print((create_github_issue(err_msg, exc_msg)))
     
 
 # eof
