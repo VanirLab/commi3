@@ -15,7 +15,7 @@ import time
 import json
 import string
 import random
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from urllib.request import urlopen
 import html.parser
 
