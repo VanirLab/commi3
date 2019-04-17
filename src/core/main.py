@@ -17,10 +17,10 @@ import os
 import sys, types
 import errno
 import random
-import requests
+from . import requests
 import request
 import __future__ 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 #import urllib3
 import codecs
 
@@ -35,7 +35,7 @@ http.client._MAXLINE = 1 * 1024 * 1024
 
 from socket import error as SocketError
 from os.path import splitext
-
+from urllib.parse import urlparse
 
 
 from src.utils import menu #as Menu
