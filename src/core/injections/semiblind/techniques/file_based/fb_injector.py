@@ -16,7 +16,7 @@ import json
 import string
 import random
 import base64
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from urllib.request import urlopen
 import urllib.parse
 
@@ -223,7 +223,7 @@ def injection(separator, payload, TAG, cmd, prefix, suffix, whitespace, http_req
           request = urllib.request.Request(url, json.dumps(data))
         else:
           if settings.IS_XML:
-            data = parameter.replace(settings.INJECT_TAG, urllib.unquote(payload))  
+            data = parameter.replace(settings.INJECT_TAG, urllib.parse.unquote(payload))  
           else:
             data = parameter.replace(settings.INJECT_TAG, payload)
           request = urllib.request.Request(url, data)
