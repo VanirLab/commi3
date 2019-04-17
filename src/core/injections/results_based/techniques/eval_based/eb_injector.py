@@ -14,7 +14,7 @@ import time
 import json
 import string
 import random
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from urllib.request import urlopen
 import urllib.parse
 
@@ -127,10 +127,10 @@ def warning_detection(url, http_request_method):
         err_msg = "code evaluation"
       if err_msg != "":
         warn_msg = "A failure message on " + err_msg + " was detected on page's response."
-        print (settings.print_warning_msg(warn_msg))
+        print((settings.print_warning_msg(warn_msg)))
     return url
   except urllib.error.HTTPError as err_msg:
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
 """
