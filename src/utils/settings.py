@@ -14,7 +14,7 @@ import os
 import sys
 import time
 import errno
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import socket
 import random
 import string
@@ -24,6 +24,7 @@ from importlib import reload
 from socket import error as socket_error
         
 from colorama import Fore, Back, Style, init
+import importlib
 
 # Status Signs
 SUCCESS_SIGN = "[" + Fore.GREEN + Style.BRIGHT + "+" + Style.RESET_ALL + "] "
@@ -127,23 +128,23 @@ def sys_argv_checks():
 
 # argv input errors
 def sys_argv_errors():
-  reload(sys)  
+  importlib.reload(sys)  
   #sys.setdefaultencoding() #'utf8'
   for i in range(len(sys.argv)): #-range -> range
     # Check for illegal (non-console) quote characters.
     if len(sys.argv[i]) > 1 and all(ord(_) in range(0x2018, 0x2020) for _ in ((sys.argv[i].split('=', 1)[-1].strip() or ' ')[0], sys.argv[i][-1])):
         err_msg = "Illegal (non-console) quote characters ('" + sys.argv[i] + "')."
-        print (print_critical_msg(err_msg))
+        print((print_critical_msg(err_msg)))
         raise SystemExit()
     # Check for illegal (non-console) comma characters.
-    if len(sys.argv[i]) > 1 and u"\uff0c" in sys.argv[i].split('=', 1)[-1]:
+    if len(sys.argv[i]) > 1 and "\uff0c" in sys.argv[i].split('=', 1)[-1]:
         err_msg = "Illegal (non-console) comma character ('" + sys.argv[i] + "')."
-        print (print_critical_msg(err_msg))
+        print((print_critical_msg(err_msg)))
         raise SystemExit()
     # Check for potentially miswritten (illegal '=') short option.
     if re.search(r"\A-\w=.+", sys.argv[i]):
         err_msg = "Potentially miswritten (illegal '=') short option detected ('" + sys.argv[i] + "')."
-        print (print_critical_msg(err_msg))
+        print((print_critical_msg(err_msg)))
         raise SystemExit()
 
 # argv checks
