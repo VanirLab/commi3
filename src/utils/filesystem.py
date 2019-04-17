@@ -18,7 +18,7 @@ import encodings
 import string
 import sysconfig
 import logging
-import filesystem
+from . import filesystem
 import io
 import enum
 
@@ -180,7 +180,7 @@ class Filesystem():
 
         logging.debug("uploading the base64-encoded file to %s, please wait.." % encodedBase64FilePath)
 
-        for i in xrange(0, wFileSize, chunkMaxSize):
+        for i in range(0, wFileSize, chunkMaxSize):
             wEncodedChunk = encodedFileContent[i:i + chunkMaxSize]
             self.xpCmdshellWriteFile(wEncodedChunk, tmpPath, encodedBase64File)
 
@@ -233,7 +233,7 @@ class Filesystem():
             debugMsg += "on the server, please wait.."
             logging.debug(debugMsg)
 
-            for i in xrange(0, wFileSize, debugSize):
+            for i in range(0, wFileSize, debugSize):
                 wFileChunk = wFileContent[i:i + debugSize]
                 chunkName = self._updateDestChunk(wFileChunk, tmpPath)
 
@@ -359,7 +359,7 @@ class Filesystem():
 
         encodedFileContent = base64encode(wFileContent)
 
-        splittedEncodedFileContent = '\n'.join([encodedFileContent[i:i + chunkMaxSize] for i in xrange(0, len(encodedFileContent), chunkMaxSize)])
+        splittedEncodedFileContent = '\n'.join([encodedFileContent[i:i + chunkMaxSize] for i in range(0, len(encodedFileContent), chunkMaxSize)])
 
         logging.debug("uploading the file base64-encoded content to %s, please wait.." % randFilePath)
 
