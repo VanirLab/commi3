@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: UTF-8
 
 """
@@ -8,12 +8,20 @@ Copyright (c) 2019.
 For more see the file 'readme/COPYING' for copying permission.
 """
 import re
+import os
 import ast
 from setuptools import setup, Extension
+# allow setup.py to be run from any path
+os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 cversion = re.compile(r'__version__\s+=\s+(.*)')
 with open('commi3.py') as f:
- version = "1.0.0"
+ version = "1.0.5"
+ 
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
+ README = readme.read()
+ 
+    
 
 
  setup(
@@ -21,15 +29,16 @@ with open('commi3.py') as f:
   version=version,
   license='MIT',
   author='Chris Pro',
-  description='is an Automated Commando Line Tool for pentest',
-  long_description=__doc__,
+  description='Is an Automated Commando Line Tool for pentesting and other fun stuff',
+  long_description_content_type="text/markdown",
+  long_description=README,
   url="https://github.com/VanirLab/commi3",
   #ext_modules=[Extension('commi3',sources=['settings.c'])], #Import your own C/C++ packages
   #packages=['src'],
   package_dir={'':'src/utils'},
   package_data={'': ['core/*.py']},
   include_package_data=True,
-  packages=setuptools.find_packages(),
+  #packages=setuptools.find_packages(),
   zip_safe=False,
   platforms='any',
   install_requires=[
@@ -39,7 +48,6 @@ with open('commi3.py') as f:
   'bs4',
   ],
   classifiers=[
-  'Development Status :: Commi3',
   'Environment :: Web Environment',
   'Intended Audience :: Developers',
   'License :: OSI Approved :: MIT License',
