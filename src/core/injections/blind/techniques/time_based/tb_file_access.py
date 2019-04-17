@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: UTF-8
 
 """
@@ -12,7 +12,7 @@ For more see the file 'readme/COPYING' for copying permission.
 import re
 import os
 import sys
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from urllib.request import urlopen
 
 from src.utils import menu

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: UTF-8
 
 """
@@ -16,7 +16,7 @@ import json
 import string
 import random
 import base64
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from urllib.request import urlopen
 
 from src.utils import menu
@@ -220,7 +220,7 @@ def injection(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timesec, 
     # Check if defined "--verbose" option.
     elif settings.VERBOSITY_LEVEL > 1:
       info_msg = "Generating a payload for injection..."
-      print (settings.print_info_msg(info_msg))
+      print((settings.print_info_msg(info_msg)))
       payload_msg = payload.replace("\n", "\\n") 
       sys.stdout.write(settings.print_payload(payload_msg) + "\n")
 
@@ -262,7 +262,7 @@ def injection(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timesec, 
         if settings.VERBOSITY_LEVEL == 1:
           print ("")
         info_msg = "Retrieved: " + str(output_length)
-        print (settings.print_info_msg(info_msg))
+        print((settings.print_info_msg(info_msg)))
       found_chars = True
       injection_check = False
       break
@@ -312,7 +312,7 @@ def injection(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timesec, 
         # Check if defined "--verbose" option.
         elif settings.VERBOSITY_LEVEL > 1:
           info_msg = "Generating a payload for injection..."
-          print (settings.print_info_msg(info_msg))
+          print((settings.print_info_msg(info_msg)))
           payload_msg = payload.replace("\n", "\\n") 
           sys.stdout.write(settings.print_payload(payload_msg) + "\n")
 
@@ -402,7 +402,7 @@ def false_positive_check(separator, TAG, cmd, whitespace, prefix, suffix, timese
     sys.stdout.flush()
   # Check if defined "--verbose" option.
   elif settings.VERBOSITY_LEVEL > 1:
-    print (settings.print_info_msg(info_msg))
+    print((settings.print_info_msg(info_msg)))
 
   # Varying the sleep time.
   timesec = timesec + random.randint(1, 5)
@@ -432,7 +432,7 @@ def false_positive_check(separator, TAG, cmd, whitespace, prefix, suffix, timese
     # Check if defined "--verbose" option.
     elif settings.VERBOSITY_LEVEL > 1:
       info_msg = "Generating a payload for testing the reliability of used payload..."
-      print (settings.print_info_msg(info_msg))
+      print((settings.print_info_msg(info_msg)))
       payload_msg = payload.replace("\n", "\\n") 
       sys.stdout.write(settings.print_payload(payload_msg) + "\n")
 
@@ -503,7 +503,7 @@ def false_positive_check(separator, TAG, cmd, whitespace, prefix, suffix, timese
         # Check if defined "--verbose" option.
         elif settings.VERBOSITY_LEVEL > 1:
           info_msg = "Generating a payload for testing the reliability of used payload..."
-          print (settings.print_info_msg(info_msg))
+          print((settings.print_info_msg(info_msg)))
           payload_msg = payload.replace("\n", "\\n") 
           sys.stdout.write(settings.print_payload(payload_msg) + "\n")
 
@@ -557,7 +557,7 @@ def export_injection_results(cmd, separator, output, check_how_long):
       print ("\n")
     elif settings.VERBOSITY_LEVEL == 1:
       print ("")  
-    print (Fore.GREEN + Style.BRIGHT + output + Style.RESET_ALL)
+    print((Fore.GREEN + Style.BRIGHT + output + Style.RESET_ALL))
     info_msg = "Finished in " + time.strftime('%H:%M:%S', time.gmtime(check_how_long)) + "."
     sys.stdout.write("\n" + settings.print_info_msg(info_msg))
   else:
@@ -567,10 +567,10 @@ def export_injection_results(cmd, separator, output, check_how_long):
       err_msg += "any output due to '" + separator + "' filtration on target host. "
       err_msg += "To bypass that limitation, use the '--alter-shell' option "
       err_msg += "or try another injection technique (i.e. '--technique=\"f\"')"
-      print ("\n" + settings.print_critical_msg(err_msg))
+      print(("\n" + settings.print_critical_msg(err_msg)))
       raise SystemExit()
     # Check for fault command.
     else:
       err_msg = "The '" + cmd + "' command, does not return any output."
-      print (settings.print_critical_msg(err_msg))     
+      print((settings.print_critical_msg(err_msg)))     
 # eof

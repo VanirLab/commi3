@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: UTF-8
 
 """
@@ -9,7 +9,7 @@ Copyright (c) 2019.
 For more see the file 'readme/COPYING' for copying permission.
 """
 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from src.utils import settings
 
 """
