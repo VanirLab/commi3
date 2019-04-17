@@ -34,8 +34,8 @@ def tamper(payload):
             "\\c\\ha\\r": "char"
           }
     payload = re.sub(r'([b-zD-Z])', r"\\\1", payload)
-    rep = dict((re.escape(k), v) for k, v in rep.iteritems())
-    pattern = re.compile("|".join(rep.keys()))
+    rep = dict((re.escape(k), v) for k, v in rep.items())
+    pattern = re.compile("|".join(list(rep.keys())))
     payload = pattern.sub(lambda m: rep[re.escape(m.group(0))], payload)
     return payload
 
@@ -46,7 +46,7 @@ def tamper(payload):
         warn_msg = "The dynamic code evaluation technique, does not support the '"+ __tamper__  +".py' tamper script."
         sys.stdout.write("\r" + settings.print_warning_msg(warn_msg))
         sys.stdout.flush() 
-        print
+        print()
     else:
       settings.TRANFROM_PAYLOAD = True
       if settings.TRANFROM_PAYLOAD:
@@ -58,7 +58,7 @@ def tamper(payload):
       warn_msg = "Windows target host(s), does not support the '"+ __tamper__  +".py' tamper script."
       sys.stdout.write("\r" + settings.print_warning_msg(warn_msg))
       sys.stdout.flush() 
-      print
+      print()
 
   return payload
   
