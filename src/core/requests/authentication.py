@@ -9,12 +9,12 @@ import os
 import sys
 import time
 import base64
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from urllib.request import urlopen
 try:
     import http.cookiejar as cookielib
 except ImportError:
-    from cookielib import CookieJar
+    from http.cookiejar import CookieJar
 
 from src.utils import menu
 from src.utils import settings
@@ -51,7 +51,7 @@ def authentication_process():
       if settings.VERBOSITY_LEVEL >= 1:
         success_msg = "The received cookie is "  
         success_msg += menu.options.cookie + Style.RESET_ALL + "."
-        print (settings.print_success_msg(success_msg))
+        print((settings.print_success_msg(success_msg)))
     urllib.request.install_opener(opener)
     request = urllib.request.Request(auth_url, auth_data)
     # Check if defined extra headers.
@@ -62,7 +62,7 @@ def authentication_process():
     return response
 
   except urllib.error.HTTPError as err_msg:
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
 """
@@ -74,11 +74,11 @@ def define_wordlists():
     usernames = []
     if not os.path.isfile(settings.USERNAMES_TXT_FILE):
       err_msg = "The username file (" + settings.USERNAMES_TXT_FILE + ") is not found"
-      print (settings.print_critical_msg(err_msg))
+      print((settings.print_critical_msg(err_msg)))
       raise SystemExit() 
     if len(settings.USERNAMES_TXT_FILE) == 0:
       err_msg = "The " + settings.USERNAMES_TXT_FILE + " file is empty."
-      print (settings.print_critical_msg(err_msg))
+      print((settings.print_critical_msg(err_msg)))
       raise SystemExit()
     with open(settings.USERNAMES_TXT_FILE, "r") as f: 
       for line in f:
@@ -86,18 +86,18 @@ def define_wordlists():
         usernames.append(line)
   except IOError: 
     err_msg = " Check if the " + settings.USERNAMES_TXT_FILE + " file is readable or corrupted."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
   try:
     passwords = []
     if not os.path.isfile(settings.PASSWORDS_TXT_FILE):
       err_msg = "The password file (" + settings.PASSWORDS_TXT_FILE + ") is not found" + Style.RESET_ALL
-      print (settings.print_critical_msg(err_msg))
+      print((settings.print_critical_msg(err_msg)))
       raise SystemExit() 
     if len(settings.PASSWORDS_TXT_FILE) == 0:
       err_msg = "The " + settings.PASSWORDS_TXT_FILE + " file is empty."
-      print (settings.print_critical_msg(err_msg))
+      print((settings.print_critical_msg(err_msg)))
       raise SystemExit() 
     with open(settings.PASSWORDS_TXT_FILE, "r") as f: 
       for line in f:
@@ -105,7 +105,7 @@ def define_wordlists():
         passwords.append(line)
   except IOError: 
     err_msg = " Check if the " + settings.PASSWORDS_TXT_FILE + " file is readable or corrupted."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
   return usernames, passwords
@@ -128,7 +128,7 @@ def http_auth_cracker(url, realm):
         if settings.VERBOSITY_LEVEL >= 1:
           payload = "pair of credentials '" + username + ":" + password + "'"
           if settings.VERBOSITY_LEVEL > 1:
-            print (settings.print_checking_msg(payload))
+            print((settings.print_checking_msg(payload)))
           else:
             sys.stdout.write("\r" + settings.print_checking_msg(payload) + "           ")
             sys.stdout.flush()
@@ -146,7 +146,7 @@ def http_auth_cracker(url, realm):
             authhandler = urllib.request.HTTPDigestAuthHandler()
             authhandler.add_password(realm, url, username, password)
             opener = urllib.request.build_opener(authhandler)
-            urllib2.install_opener(opener)
+            urllib.request.install_opener(opener)
             request = urllib.request.Request(url)
             headers.check_http_traffic(request)
             result = urllib.request.urlopen(request)
@@ -177,14 +177,14 @@ def http_auth_cracker(url, realm):
           print ("")
           success_msg = "Identified a valid pair of credentials '" 
           success_msg += valid_pair + Style.RESET_ALL + Style.BRIGHT  + "'."  
-          print (settings.print_success_msg(success_msg))
+          print((settings.print_success_msg(success_msg)))
           return valid_pair
 
     err_msg = "Use the '--auth-cred' option to provide a valid pair of " 
     err_msg += "HTTP authentication credentials (i.e --auth-cred=\"admin:admin\") " 
     err_msg += "or place an other dictionary into '" 
     err_msg += os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'txt')) + "/' directory."
-    print ("\n" + settings.print_critical_msg(err_msg))  
+    print(("\n" + settings.print_critical_msg(err_msg)))  
     return False  
 
 # eof

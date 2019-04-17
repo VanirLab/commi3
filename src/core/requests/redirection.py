@@ -10,10 +10,10 @@ Copyright (c) 2019 Chris Pro.
 
 import sys
 import socket
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 import urllib3
-import requests
+from . import requests
 import urllib.request
 from src.utils import menu
 from src.utils import settings
@@ -40,9 +40,9 @@ def do_check(url):
     def redirect_request(self, req, fp, code, msg, headers, redirected_url): 
       if code in (301, 302, 303, 307):
         redirected_url = redirected_url.replace(' ', '%20') 
-        newheaders = dict((k,v) for k,v in req.headers.items() if k.lower() not in ("content-length", "content-type"))
+        newheaders = dict((k,v) for k,v in list(req.headers.items()) if k.lower() not in ("content-length", "content-type"))
         warn_msg = "Got a " + str(code) + " redirection (" + redirected_url + ")."
-        print (settings.print_warning_msg(warn_msg))
+        print((settings.print_warning_msg(warn_msg)))
         return Request(redirected_url, 
                            headers = newheaders,
                            origin_req_host = req.get_origin_req_host(), 
@@ -50,7 +50,7 @@ def do_check(url):
                            ) 
       else: 
         err_msg = str(urllib.error.HTTPError(req.get_full_url(), code, msg, headers, fp)).replace(": "," (")
-        print (settings.print_critical_msg(err_msg + ")."))
+        print((settings.print_critical_msg(err_msg + ").")))
         raise SystemExit()
               
   class HTTPMethodFallback(urllib.request.BaseHandler):
@@ -59,7 +59,7 @@ def do_check(url):
     def http_error_405(self, req, fp, code, msg, headers): 
       fp.read()
       fp.close()
-      newheaders = dict((k,v) for k,v in req.headers.items() if k.lower() not in ("content-length", "content-type"))
+      newheaders = dict((k,v) for k,v in list(req.headers.items()) if k.lower() not in ("content-length", "content-type"))
       return self.parent.open(urllib.request.Request(req.get_full_url(), 
                               headers = newheaders, 
                               origin_req_host = req.get_origin_req_host(), 
@@ -102,7 +102,7 @@ def do_check(url):
         if len(redirection_option) == 0 or redirection_option in settings.CHOICE_YES:
           if menu.options.batch:
             info_msg = "Following redirection to '" + redirected_url + "'. "
-            print (settings.print_info_msg(info_msg))
+            print((settings.print_info_msg(info_msg)))
           return redirected_url
         elif redirection_option in settings.CHOICE_NO:
           return url  
@@ -110,7 +110,7 @@ def do_check(url):
           raise SystemExit()
         else:
           err_msg = "'" + redirection_option + "' is not a valid answer."  
-          print (settings.print_error_msg(err_msg))
+          print((settings.print_error_msg(err_msg)))
           pass
     else:
       return url
@@ -121,13 +121,13 @@ def do_check(url):
   # Raise exception due to ValueError.
   except ValueError as err:
     err_msg = str(err).replace(": "," (")
-    print (settings.print_critical_msg(err_msg + ")."))
+    print((settings.print_critical_msg(err_msg + ").")))
     raise SystemExit()
 
   # Raise exception regarding urllib HTTPError.
   except urllib.error.HTTPError as err:
     err_msg = str(err).replace(": "," (")
-    print (settings.print_critical_msg(err_msg + ")."))
+    print((settings.print_critical_msg(err_msg + ").")))
     raise SystemExit()
 
   # The target host seems to be down.
@@ -137,27 +137,27 @@ def do_check(url):
       err_msg += " (" + str(err.args[0]).split("] ")[1] + ")."
     except IndexError:
       err_msg += "."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
   # Raise exception regarding infinite loop.
   except RuntimeError:
     err_msg = "Infinite redirect loop detected." 
     err_msg += "Please check all provided parameters and/or provide missing ones."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit() 
 
   # Raise exception regarding existing connection was forcibly closed by the remote host.
   except socket.error as error:
     if error.errno == errno.WSAECONNRESET:
       err_msg = "An existing connection was forcibly closed by the remote host."
-      print (settings.print_critical_msg(err_msg))
+      print((settings.print_critical_msg(err_msg)))
       raise SystemExit()
 
   # Raise exception regarding connection aborted.
   except Exception:
     err_msg = "Connection aborted."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise SystemExit()
 
 # eof

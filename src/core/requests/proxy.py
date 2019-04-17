@@ -13,7 +13,7 @@ import sys
 from urllib.request import urlopen
 #import httplib
 import http.client
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import urllib3
 from src.utils import (
     menu,
@@ -38,7 +38,7 @@ def do_check(url):
   try:
     if settings.VERBOSITY_LEVEL >= 1:
       info_msg = "Setting the HTTP proxy for all HTTP requests... "
-      print (settings.print_info_msg(info_msg)) 
+      print((settings.print_info_msg(info_msg))) 
     # Check if defined POST data
     if menu.options.data:
       request = urllib.request.Request(url, menu.options.data)
@@ -60,7 +60,7 @@ def do_check(url):
     err_msg = "Unable to connect to the target URL or proxy ("
     err_msg += menu.options.proxy
     err_msg += ")."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise sys.exit()
     
 """
@@ -77,7 +77,7 @@ def use_proxy(request):
     err_msg = "Unable to connect to the target URL or proxy ("
     err_msg += menu.options.proxy
     err_msg += ")."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise sys.exit() 
 
   except Exception as err_msg:
@@ -85,7 +85,7 @@ def use_proxy(request):
       error_msg = str(err_msg.args[0]).split("] ")[1] + "."
     except IndexError:
       error_msg = str(err_msg).replace(": "," (") + ")."
-    print (settings.print_critical_msg(error_msg))
+    print((settings.print_critical_msg(error_msg)))
     raise sys.exit()
 
 # eof 

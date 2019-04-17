@@ -27,7 +27,7 @@ import socket
 from urllib.request import urlopen
 import urllib.parse
 import http.client
-import requests
+from . import requests
 
 from src.utils import logs
 from src.utils import menu
@@ -45,12 +45,12 @@ Checking the HTTP response content.
 def http_response_content(content):
   info_msg = "The target's HTTP response page content:"
   if settings.VERBOSITY_LEVEL >= 4:
-    print (settings.print_info_msg(info_msg))
+    print((settings.print_info_msg(info_msg)))
   if menu.options.traffic_file: 
     logs.log_traffic("-" * 42 + "\n" + info_msg + "\n" + "-" * 42)  
   if settings.VERBOSITY_LEVEL >= 4:
     content = checks.remove_empty_lines(content)
-    print (settings.print_http_response_content(content))
+    print((settings.print_http_response_content(content)))
   if menu.options.traffic_file:
     logs.log_traffic("\n" + content)
   if menu.options.traffic_file:
@@ -62,14 +62,14 @@ Checking the HTTP response headers.
 def http_response(headers, code):
   info_msg = "The target's HTTP response headers (" + str(code) + "):"
   if settings.VERBOSITY_LEVEL >= 3:
-    print (settings.print_info_msg(info_msg))
+    print((settings.print_info_msg(info_msg)))
   if menu.options.traffic_file: 
     logs.log_traffic("-" * 37 + "\n" + info_msg + "\n" + "-" * 37)  
   response_http_headers = str(headers).split("\r\n")
   for header in response_http_headers:
     if len(header) > 1: 
       if settings.VERBOSITY_LEVEL >= 3:
-        print (settings.print_traffic(header))
+        print((settings.print_traffic(header)))
       if menu.options.traffic_file:
         logs.log_traffic("\n" + header)
   if menu.options.traffic_file:
@@ -95,24 +95,24 @@ def check_http_traffic(request):
     def request(self, method, url, body, headers):
       info_msg = "The provided HTTP request headers: "
       if settings.VERBOSITY_LEVEL >= 2:
-        print (settings.print_info_msg(info_msg))
+        print((settings.print_info_msg(info_msg)))
       if menu.options.traffic_file: 
         logs.log_traffic("-" * 37 + "\n" + info_msg + "\n" + "-" * 37)
       header = method + " " + url
       if settings.VERBOSITY_LEVEL >= 2:
-        print (settings.print_traffic(header))
+        print((settings.print_traffic(header)))
       if menu.options.traffic_file:
         logs.log_traffic("\n" + header)
-      for item in headers.items():
+      for item in list(headers.items()):
         header = item[0] + ": " + item[1]
         if settings.VERBOSITY_LEVEL >= 2:
-          print (settings.print_traffic(header))
+          print((settings.print_traffic(header)))
         if menu.options.traffic_file:
           logs.log_traffic("\n" + header)
       if body :
         header = body
         if settings.VERBOSITY_LEVEL >= 2:
-          print (settings.print_traffic(header))
+          print((settings.print_traffic(header)))
         if menu.options.traffic_file:
           logs.log_traffic("\n" + header) 
       if menu.options.traffic_file:
@@ -134,11 +134,11 @@ def check_http_traffic(request):
             error_msg = str(err_msg.args[0]) + "."
           if settings.INIT_TEST == True:
             if settings.VERBOSITY_LEVEL < 2:
-              print ("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]")
+              print(("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]"))
           else:
             if settings.VERBOSITY_LEVEL < 1:
               print ("")   
-          print (settings.print_critical_msg(error_msg))
+          print((settings.print_critical_msg(error_msg)))
           raise sys.exit()
     else:      
       def http_open(self, req):
@@ -151,11 +151,11 @@ def check_http_traffic(request):
             error_msg = str(err_msg.args[0]) + "."
           if settings.INIT_TEST == True:
             if settings.VERBOSITY_LEVEL < 2:
-              print ("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]")
+              print(("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]"))
           else:
             if settings.VERBOSITY_LEVEL < 1:
               print ("")
-          print (settings.print_critical_msg(error_msg))
+          print((settings.print_critical_msg(error_msg)))
           raise SystemExit()
 
   if settings.REVERSE_TCP == False and settings.BIND_TCP == False:
@@ -173,41 +173,41 @@ def check_http_traffic(request):
             sys.stdout.write(settings.print_info_msg(info_msg))
             sys.stdout.flush()
           if settings.INIT_TEST == True:  
-            print ("[ " + Fore.GREEN + "SUCCEED" + Style.RESET_ALL + " ]")
+            print(("[ " + Fore.GREEN + "SUCCEED" + Style.RESET_ALL + " ]"))
             if not settings.CHECK_INTERNET:
               settings.INIT_TEST = False
               
       except urllib.error.URLError or err_msg: 
         if current_attempt == 0:
           if settings.VERBOSITY_LEVEL < 2:
-            print ("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]")
+            print(("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]"))
           try:
             error_msg = str(err_msg.args[0]).split("] ")[1] + ". "
           except IndexError:
             error_msg = ""
           error_msg += "Please wait while retring the request(s)."
-          print (settings.print_critical_msg(error_msg))
+          print((settings.print_critical_msg(error_msg)))
           warn_msg = "In case the provided target URL is valid, try to rerun with"
           warn_msg += " the switch '--random-agent' and/or proxy switch."
-          print (settings.print_warning_msg(warn_msg))
+          print((settings.print_warning_msg(warn_msg)))
         if settings.VERBOSITY_LEVEL >= 2 or current_attempt == 1:
           info_msg = "Please wait while retring the request(s)."
-          print (settings.print_info_msg(info_msg) )
+          print((settings.print_info_msg(info_msg) ))
         current_attempt = current_attempt + 1
         time.sleep(3)
         
       except http.client.BadStatusLine or err_msg:
         if settings.VERBOSITY_LEVEL < 2:
-          print ("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]")
+          print(("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]"))
         if len(err_msg.line) > 2 :
-          print (err_msg.line, err_msg.message)
+          print((err_msg.line, err_msg.message))
         raise sys.exit()
 
       except ValueError or err:
         if settings.VERBOSITY_LEVEL < 2:
-          print ("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]")
+          print(("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]"))
         err_msg = "Invalid target URL has been given." 
-        print( settings.print_critical_msg(err_msg))
+        print(( settings.print_critical_msg(err_msg)))
         raise SystemExit()
 
       except AttributeError:
@@ -245,7 +245,7 @@ def check_http_traffic(request):
         if len(str(err).split(": ")[1]) == 0:
           error_msg = error_msg + "Non-standard HTTP status code" 
         warn_msg = error_msg
-        print (settings.print_warning_msg(warn_msg + ")."))
+        print((settings.print_warning_msg(warn_msg + ").")))
       pass
     else:
       error_msg = str(err).replace(": "," (")
@@ -253,7 +253,7 @@ def check_http_traffic(request):
         err_msg = error_msg + "Non-standard HTTP status code" 
       else:
         err_msg = error_msg
-      print (settings.print_critical_msg(err_msg + ")."))
+      print((settings.print_critical_msg(err_msg + ").")))
       raise sys.exit()
 
   # The handlers raise this exception when they run into a problem.
@@ -263,31 +263,31 @@ def check_http_traffic(request):
       err_msg += " (" + str(err.args[0]).split("] ")[1] + ")."
     except IndexError:
       err_msg += "."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise sys.exit()
 
   except httplib.IncompleteRead or err_msg:
-    print (settings.print_critical_msg(str(err_msg)))
+    print((settings.print_critical_msg(str(err_msg))))
     raise sys.exit()
 
   except UnicodeDecodeError or err_msg:
-    print (settings.print_critical_msg(str(err_msg)))
+    print((settings.print_critical_msg(str(err_msg))))
     raise sys.exit()
 
   except LookupError or err_msg:
-    print (settings.print_critical_msg(str(err_msg)))
+    print((settings.print_critical_msg(str(err_msg))))
     raise sys.exit()
   
   except MemoryError or err_msg:
-    print(settings.print_ciritical_msg(str(err_msg)))
+    print((settings.print_ciritical_msg(str(err_msg))))
     raise sys.exit()
   
   except OverflowError or err_msg:
-    print(settings.print_ciritical_msg(str(err_msg)))
+    print((settings.print_ciritical_msg(str(err_msg))))
     raise sys.exit()
   
   except OSError or err_msg:
-    print(settings.print_ciritical_msg(str(err_msg)))
+    print((settings.print_ciritical_msg(str(err_msg))))
     raise sys.exit()  
     
     
@@ -353,7 +353,7 @@ def do_check(request):
     except ValueError:
       err_msg = "Unsupported / Invalid HTTP authentication type '" + menu.options.auth_type + "'."
       err_msg += " Try basic or digest HTTP authentication type."
-      print (settings.print_critical_msg(err_msg))
+      print((settings.print_critical_msg(err_msg)))
       raise sys.exit()   
   else:
     pass        
@@ -383,7 +383,7 @@ def do_check(request):
       if menu.options.header and not menu.options.headers and len(extra_headers) > 1:
         warn_msg = "Swithing '--header' to '--headers' "
         warn_msg += "due to multiple extra HTTP headers."
-        print (settings.print_warning_msg(warn_msg))
+        print((settings.print_warning_msg(warn_msg)))
 
     else:
       tmp_extra_header = []
