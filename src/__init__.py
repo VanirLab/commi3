@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: UTF-8
 
 """
@@ -7,5 +7,5 @@ Copyright (c) 2019.
  
 For more see the file 'readme/COPYING' for copying permission.
 """
-
-pass
+__path__ = __import__('pkgutil').extend_path(__path__, __name__)
+#pass
