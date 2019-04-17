@@ -40,7 +40,7 @@ with open('commi3.py') as f:
   'bs4',
   ],
   classifiers=[
-  'Development Status :: Commi3 - Beta',
+  'Development Status :: Commi3',
   'Environment :: Web Environment',
   'Intended Audience :: Developers',
   'License :: OSI Approved :: MIT License',
