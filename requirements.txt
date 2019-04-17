@@ -12,3 +12,4 @@ request
 html5lib
 requests
 pyfiglet
+future
