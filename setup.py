@@ -19,7 +19,6 @@ with open('commi3.py') as f:
  setup(
   name='Commi3',
   version=version,
-  url='http://github.com/VanirLab/commi3/',
   license='MIT',
   author='Chris Pro',
   description='is an Automated Commando Line Tool for pentest',
@@ -30,7 +29,7 @@ with open('commi3.py') as f:
   package_dir={'':'src/utils'},
   package_data={'': ['core/*.py']},
   include_package_data=True,
-  packages=setuptools.find_packages()
+  packages=setuptools.find_packages(),
   zip_safe=False,
   platforms='any',
   install_requires=[
