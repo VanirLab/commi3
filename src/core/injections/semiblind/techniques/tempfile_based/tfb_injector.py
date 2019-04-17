@@ -15,7 +15,7 @@ import json
 import string
 import random
 import base64
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from urllib.request import urlopen
 
 from src.utils import menu
@@ -52,12 +52,12 @@ def examine_requests(payload, vuln_parameter, http_request_method, url, timesec,
 
     target = url.replace(settings.INJECT_TAG, payload)
     vuln_parameter = ''.join(vuln_parameter)
-    request = urllib2.Request(target)
+    request = urllib.request.Request(target)
 
   # Check if defined method is POST.
   else :
     parameter = menu.options.data
-    parameter = urllib2.unquote(parameter)
+    parameter = urllib.parse.unquote(parameter)
 
     # Check if its not specified the 'INJECT_HERE' tag
     parameter = parameters.do_POST_check(parameter)
@@ -71,13 +71,13 @@ def examine_requests(payload, vuln_parameter, http_request_method, url, timesec,
         data = json.loads(data, strict = False)
       except:
         pass
-      request = urllib2.Request(url, json.dumps(data))
+      request = urllib.request.Request(url, json.dumps(data))
     else:
       if settings.IS_XML:
         data = parameter.replace(settings.INJECT_TAG, urllib.parse.unquote(payload)) 
       else:
         data = parameter.replace(settings.INJECT_TAG, payload)
-      request = urllib2.Request(url, data)
+      request = urllib.request.Request(url, data)
 
   # Check if defined extra headers.
   headers.do_check(request)
@@ -107,12 +107,12 @@ def injection_test(payload, http_request_method, url):
     # Define the vulnerable parameter
     vuln_parameter = parameters.vuln_GET_param(url)
     target = url.replace(settings.INJECT_TAG, payload)
-    request = urllib2.Request(target)
+    request = urllib.request.Request(target)
               
   # Check if defined method is POST.
   else:
     parameter = menu.options.data
-    parameter = urllib2.unquote(parameter)
+    parameter = urllib.parse.unquote(parameter)
     # Check if its not specified the 'INJECT_HERE' tag
     parameter = parameters.do_POST_check(parameter)
     parameter = parameter.replace("+","%2B")
@@ -128,13 +128,13 @@ def injection_test(payload, http_request_method, url):
         data = json.loads(data, strict = False)
       except:
         pass
-      request = urllib2.Request(url, json.dumps(data))
+      request = urllib.request.Request(url, json.dumps(data))
     else:
       if settings.IS_XML:
         data = parameter.replace(settings.INJECT_TAG, urllib.parse.unquote(payload)) 
       else:
         data = parameter.replace(settings.INJECT_TAG, payload)
-      request = urllib2.Request(url, data)
+      request = urllib.request.Request(url, data)
     
   # Check if defined extra headers.
   headers.do_check(request)
@@ -221,8 +221,8 @@ def injection(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timesec, 
       sys.stdout.write("\n" + settings.print_payload(payload_msg))
     elif settings.VERBOSITY_LEVEL > 1:
       info_msg = "Generating a payload for injection..."
-      print (settings.print_info_msg(info_msg))
-      print (settings.print_payload(payload)) 
+      print((settings.print_info_msg(info_msg)))
+      print((settings.print_payload(payload))) 
 
     # Check if defined cookie with "INJECT_HERE" tag
     if menu.options.cookie and settings.INJECT_TAG in menu.options.cookie:
@@ -262,7 +262,7 @@ def injection(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timesec, 
         if settings.VERBOSITY_LEVEL == 1:
           print ("")
         info_msg = "Retrieved: " + str(output_length)
-        print (settings.print_info_msg(info_msg))
+        print((settings.print_info_msg(info_msg)))
       found_chars = True
       injection_check = False
       break
@@ -310,8 +310,8 @@ def injection(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timesec, 
           sys.stdout.write("\n" + settings.print_payload(payload_msg))
         elif settings.VERBOSITY_LEVEL > 1:
           info_msg = "Generating a payload for injection..."
-          print (settings.print_info_msg(info_msg))
-          print (settings.print_payload(payload)) 
+          print((settings.print_info_msg(info_msg)))
+          print((settings.print_payload(payload))) 
 
         # Check if defined cookie with "INJECT_HERE" tag
         if menu.options.cookie and settings.INJECT_TAG in menu.options.cookie:
@@ -394,7 +394,7 @@ def false_positive_check(separator, TAG, cmd, prefix, suffix, whitespace, timese
     sys.stdout.flush()
   # Check if defined "--verbose" option.
   elif settings.VERBOSITY_LEVEL > 1:
-    print (settings.print_info_msg(info_msg))
+    print((settings.print_info_msg(info_msg)))
   
   # Varying the sleep time.
   timesec = timesec + random.randint(1, 5)
@@ -424,7 +424,7 @@ def false_positive_check(separator, TAG, cmd, prefix, suffix, whitespace, timese
     # Check if defined "--verbose" option.
     elif settings.VERBOSITY_LEVEL > 1:
       info_msg = "Generating a payload for testing the reliability of used payload..."
-      print (settings.print_info_msg(info_msg))
+      print((settings.print_info_msg(info_msg)))
       payload_msg = payload.replace("\n", "\\n") 
       sys.stdout.write(settings.print_payload(payload_msg) + "\n")
  
@@ -494,7 +494,7 @@ def false_positive_check(separator, TAG, cmd, prefix, suffix, whitespace, timese
         # Check if defined "--verbose" option.
         elif settings.VERBOSITY_LEVEL > 1:
           info_msg = "Generating a payload for injection..."
-          print (settings.print_info_msg(info_msg))
+          print((settings.print_info_msg(info_msg)))
           payload_msg = payload.replace("\n", "\\n") 
           sys.stdout.write(settings.print_payload(payload_msg) + "\n")
 
@@ -547,13 +547,13 @@ def export_injection_results(cmd, separator, output, check_how_long):
       print ("\n")
     elif settings.VERBOSITY_LEVEL == 1:
       print ("")  
-    print (Fore.GREEN + Style.BRIGHT + output + Style.RESET_ALL)
+    print((Fore.GREEN + Style.BRIGHT + output + Style.RESET_ALL))
     info_msg = "Finished in " + time.strftime('%H:%M:%S', time.gmtime(check_how_long))
     sys.stdout.write("\n" + settings.print_info_msg(info_msg))
     if not menu.options.os_cmd:
       print ("")
   else:
     err_msg = "The '" + cmd + "' command, does not return any output."
-    print (settings.print_critical_msg(err_msg) + "\n")
+    print((settings.print_critical_msg(err_msg) + "\n"))
 
 # eof

@@ -60,7 +60,7 @@ def powershell_version(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, 
   except ValueError:
     warn_msg = "Heuristics have failed to identify the version of Powershell, "
     warn_msg += "which means that some payloads or injection techniques may be failed." 
-    print ("\n" + settings.print_warning_msg(warn_msg))
+    print(("\n" + settings.print_warning_msg(warn_msg)))
     settings.PS_ENABLED = False
 
 """
@@ -93,7 +93,7 @@ def hostname(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timesec, h
     output_file.close()
   else:
     warn_msg = "Heuristics have failed to identify the hostname."
-    print (settings.print_warning_msg(warn_msg))
+    print((settings.print_warning_msg(warn_msg)))
 
 """
 Retrieve system information
@@ -154,7 +154,7 @@ def system_information(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, 
       output_file.close()
   else:
     warn_msg = "Heuristics have failed to retrieve the system information."
-    print (settings.print_warning_msg(warn_msg))
+    print((settings.print_warning_msg(warn_msg)))
 
 """
 The current user enumeration
@@ -228,7 +228,7 @@ def current_user(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timese
       output_file.close()
   else:
     warn_msg = "Heuristics have failed to identify the current user."
-    print (settings.print_warning_msg(warn_msg))
+    print((settings.print_warning_msg(warn_msg)))
     
 """
 System users enumeration
@@ -284,7 +284,7 @@ def system_users(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timese
           if menu.options.privileges:
             info_msg = "Confirming privileges of user '" 
             info_msg += sys_users_list[user] + "'... "
-            print (settings.print_info_msg(info_msg))
+            print((settings.print_info_msg(info_msg)))
             cmd = "powershell.exe -InputFormat none write-host (([string]$(net user " + sys_users_list[user] + ")[22..($(net user " + sys_users_list[user] + ").length-3)]).replace('Local Group Memberships','').replace('*','').Trim()).replace(' ','').substring(0,6)"
             check_how_long, output = tfb_injector.injection(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timesec, http_request_method, url, vuln_parameter, OUTPUT_TEXTFILE, alter_shell, filename, url_time_response)
             check_privs = output
@@ -301,7 +301,7 @@ def system_users(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timese
           else :
             is_privileged = ""
             is_privileged_nh = ""
-          print ("\n  (" +str(count)+ ") '" + Style.BRIGHT +  sys_users_list[user] + Style.RESET_ALL + "'" + Style.BRIGHT + is_privileged + Style.RESET_ALL + ".")
+          print(("\n  (" +str(count)+ ") '" + Style.BRIGHT +  sys_users_list[user] + Style.RESET_ALL + "'" + Style.BRIGHT + is_privileged + Style.RESET_ALL + "."))
           # Add infos to logs file.
           output_file = open(filename, "a")
           output_file.write("    (" +str(count)+ ") " + sys_users_list[user] + is_privileged + ".\n" )
@@ -310,7 +310,7 @@ def system_users(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timese
         sys.stdout.write("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]")
         sys.stdout.flush()
         warn_msg = "It seems that you don't have permissions to enumerate users entries."
-        print ("\n" + settings.print_warning_msg(warn_msg))
+        print(("\n" + settings.print_warning_msg(warn_msg)))
     except TypeError:
       sys.stdout.write("[ " + Fore.RED + "FAILED" + Style.RESET_ALL + " ]\n")
       sys.stdout.flush()
@@ -342,7 +342,7 @@ def system_users(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timese
           sys.stdout.flush()
           warn_msg = "It seems that '" + settings.PASSWD_FILE + "' file is "
           warn_msg += "not in the appropriate format. Thus, it is expoted as a text file."      
-          print ("\n" + settings.print_warning_msg(warn_msg))
+          print(("\n" + settings.print_warning_msg(warn_msg)))
           sys_users = " ".join(str(p) for p in sys_users).strip()
           print (sys_users)
           output_file = open(filename, "a")
@@ -407,7 +407,7 @@ def system_users(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, timese
                 if count == 1 :
                   warn_msg = "It seems that '" + settings.PASSWD_FILE + "' file is not in the "
                   warn_msg += "appropriate format. Thus, it is expoted as a text file." 
-                  print (settings.print_warning_msg(warn_msg))
+                  print((settings.print_warning_msg(warn_msg)))
                 sys_users = " ".join(str(p) for p in sys_users.split(":"))
                 print (sys_users)
                 output_file = open(filename, "a")
@@ -480,7 +480,7 @@ def system_passwords(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, ti
             if ":" in line:
               fields = line.split(":")
               if not "*" in fields[1] and not "!" in fields[1] and fields[1] != "":
-                print ("  (" +str(count)+ ") " + Style.BRIGHT + fields[0]+ Style.RESET_ALL + " : " + Style.BRIGHT + fields[1]+ Style.RESET_ALL)
+                print(("  (" +str(count)+ ") " + Style.BRIGHT + fields[0]+ Style.RESET_ALL + " : " + Style.BRIGHT + fields[1]+ Style.RESET_ALL))
                 # Add infos to logs file.
                 output_file = open(filename, "a")
                 output_file.write("    (" +str(count)+ ") " + fields[0] + " : " + fields[1] + "\n")
@@ -491,7 +491,7 @@ def system_passwords(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, ti
               warn_msg = "It seems that '" + settings.SHADOW_FILE + "' file is not "
               warn_msg += "in the appropriate format. Thus, it is expoted as a text file."
               sys.stdout.write(settings.print_warning_msg(warn_msg)+ "\n")
-            print (fields[0])
+            print((fields[0]))
             output_file = open(filename, "a")
             output_file.write("      " + fields[0])
             output_file.close()
@@ -516,7 +516,7 @@ def single_os_cmd_exec(separator, maxlen, TAG, cmd, prefix, suffix, whitespace, 
     return check_how_long, output
   else:
     output = session_handler.export_stored_cmd(url, cmd, vuln_parameter)
-    print ("\n" + Fore.GREEN + Style.BRIGHT + str(output) + Style.RESET_ALL + "\n")
+    print(("\n" + Fore.GREEN + Style.BRIGHT + str(output) + Style.RESET_ALL + "\n"))
     logs.print_logs_notification(filename, url) 
     raise SystemExit()
 

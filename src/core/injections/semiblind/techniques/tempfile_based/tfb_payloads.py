@@ -8,7 +8,7 @@ Copyright (c) 2019 Chris Pro.
 For more see the file 'readme/COPYING' for copying permission.
 """
 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from src.utils import settings
 
 """
