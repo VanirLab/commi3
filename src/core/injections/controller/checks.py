@@ -17,7 +17,7 @@ import socket
 import random
 import string
 import base64
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import urllib3
 from urllib.parse import urlparse
 import traceback
@@ -32,14 +32,14 @@ def ignore_anticsrf_parameter(parameter):
   if any(parameter.lower().count(token) for token in settings.CSRF_TOKEN_PARAMETER_INFIXES):
     info_msg = "Ignoring the parameter '" + parameter.split("=")[0]
     info_msg += "' that appears to hold anti-CSRF token '" + parameter.split("=")[1] +  "'." 
-    print (settings.print_info_msg(info_msg))
+    print((settings.print_info_msg(info_msg)))
     return True
 
 # Ignoring the Google analytics cookie parameter.
 def ignore_google_analytics_cookie(cookie):
   if cookie.upper().startswith(settings.GOOGLE_ANALYTICS_COOKIE_PREFIX):
     info_msg = "Ignoring the Google analytics cookie parameter '" + cookie.split("=")[0] + "'."
-    print (settings.print_info_msg(info_msg))
+    print((settings.print_info_msg(info_msg)))
     return True
 
 """
@@ -72,7 +72,7 @@ Checks regarding a recognition of generic "your ip has been blocked" messages.
 def blocked_ip(page):
   if re.search(settings.BLOCKED_IP_REGEX, page):
     warn_msg = "It appears that you have been blocked by the target server."
-    print (settings.print_bold_warning_msg(warn_msg))
+    print((settings.print_bold_warning_msg(warn_msg)))
 
 """
 Checks regarding a potential browser verification protection mechanism.
@@ -85,7 +85,7 @@ def browser_verification(page):
       warn_msg += " (CloudFlare)."
     else:
       warn_msg += "."
-    print (settings.print_bold_warning_msg(warn_msg))
+    print((settings.print_bold_warning_msg(warn_msg)))
 
 """
 Checks regarding a potential CAPTCHA protection mechanism.
@@ -100,7 +100,7 @@ def captcha_check(page):
           warn_msg += " (CloudFlare)."
         else:
           warn_msg += "."
-        print (settings.print_bold_warning_msg(warn_msg))
+        print((settings.print_bold_warning_msg(warn_msg)))
         break
         
 """
@@ -109,7 +109,7 @@ Counting the total of HTTP(S) requests for the identified injection point(s), du
 def total_of_requests():
   info_msg = "Identified the following injection point with "
   info_msg += "a total of " + str(settings.TOTAL_OF_REQUESTS) + " HTTP(S) requests."
-  print (settings.print_info_msg(info_msg))
+  print((settings.print_info_msg(info_msg)))
 
 """
 Url decode specific chars of the provided payload.
@@ -120,8 +120,8 @@ def url_decode(payload):
           "%2B": "+",
           "\n": "\\n"
         }
-  rep = dict((re.escape(k), v) for k, v in rep.iteritems())
-  pattern = re.compile("|".join(rep.keys()))
+  rep = dict((re.escape(k), v) for k, v in rep.items())
+  pattern = re.compile("|".join(list(rep.keys())))
   payload = pattern.sub(lambda m: rep[re.escape(m.group(0))], payload)
   return payload
 
@@ -137,16 +137,16 @@ def check_connection(url):
     if not any((menu.options.proxy, menu.options.tor, menu.options.offline)):
       try:
         info_msg = "Resolving hostname '" + hostname + "'."
-        print (settings.print_info_msg(info_msg))
+        print((settings.print_info_msg(info_msg)))
         socket.getaddrinfo(hostname, None)
       except socket.gaierror:
         err_msg = "Host '" + hostname + "' does not exist."
-        print (settings.print_critical_msg(err_msg))
+        print((settings.print_critical_msg(err_msg)))
         raise sys.exit()
       except socket.error or ex:
         err_msg = "Problem occurred while "
         err_msg += "resolving a host name '" + hostname + "'"
-        print (settings.print_critical_msg(err_msg))
+        print((settings.print_critical_msg(err_msg)))
         raise SystemExit()
 
 """
@@ -201,7 +201,7 @@ def next_attack_vector(technique, go_back):
       raise SystemExit()
     else:
       err_msg = "'" + next_attack_vector + "' is not a valid answer."  
-      print (settings.print_error_msg(err_msg))
+      print((settings.print_error_msg(err_msg)))
       pass
 
 """
@@ -267,7 +267,7 @@ def procced_with_file_based_technique():
       raise SystemExit()
     else:
       err_msg = "'" + enable_fb + "' is not a valid answer."  
-      print (settings.print_error_msg(err_msg))
+      print((settings.print_error_msg(err_msg)))
       pass
 
 """
@@ -314,7 +314,7 @@ def continue_tests(err):
     # that skips heuristic detection of WAF/IPS/IDS protection.
     settings.WAF_ENABLED = True
     warn_msg = "It seems that target is protected by some kind of WAF/IPS/IDS."
-    print (settings.print_warning_msg(warn_msg))
+    print((settings.print_warning_msg(warn_msg)))
   try:
     while True:
       if not menu.options.batch:
@@ -334,10 +334,10 @@ def continue_tests(err):
         return False
       else:
         err_msg = "'" + continue_tests + "' is not a valid answer."  
-        print (settings.print_error_msg(err_msg))
+        print((settings.print_error_msg(err_msg)))
         pass
   except KeyboardInterrupt:
-    print ("\n" + Back.RED + settings.ABORTION_SIGN + "Ctrl-C was pressed!" + Style.RESET_ALL)
+    print(("\n" + Back.RED + settings.ABORTION_SIGN + "Ctrl-C was pressed!" + Style.RESET_ALL))
     raise sys.exit()
 
 """
@@ -346,7 +346,7 @@ Check if option is unavailable
 def unavailable_option(check_option):
   warn_msg = "The '" + check_option + "' option "
   warn_msg += "is not yet available for windows targets."
-  print (settings.print_warning_msg(warn_msg))
+  print((settings.print_warning_msg(warn_msg)))
 
 """
 Transformation of separators if time-based injection
@@ -370,7 +370,7 @@ def no_readline_module():
     err_msg += " 'pyreadline' module (https://pypi.python.org/pypi/pyreadline)."
   else:  
     err_msg += " 'gnureadline' module (https://pypi.python.org/pypi/gnureadline)." 
-  print (settings.print_critical_msg(err_msg))
+  print((settings.print_critical_msg(err_msg)))
 
 """
 Check for incompatible OS (i.e Unix).
@@ -378,7 +378,7 @@ Check for incompatible OS (i.e Unix).
 def ps_incompatible_os():
   if not settings.TARGET_OS == "win":
     warn_msg = "The identified OS seems incompatible with the provided '--ps-version' switch."
-    print (settings.print_warning_msg(warn_msg))
+    print((settings.print_warning_msg(warn_msg)))
     return True
 
 """
@@ -390,7 +390,7 @@ def ps_check():
       print ("")
     warn_msg = "The payloads in some options that you "
     warn_msg += "have chosen, are requiring the use of PowerShell. "
-    print (settings.print_warning_msg(warn_msg))
+    print((settings.print_warning_msg(warn_msg)))
     while True:
       if not menu.options.batch:
         question_msg = "Do you want to use the \"--ps-version\" option "
@@ -411,7 +411,7 @@ def ps_check():
         os._exit(0)
       else:  
         err_msg = "'" + ps_check + "' is not a valid answer."  
-        print (settings.print_error_msg(err_msg))
+        print((settings.print_error_msg(err_msg)))
         pass
 
 """
@@ -435,7 +435,7 @@ def ps_check_failed():
       os._exit(0)
     else:  
       err_msg = "'" + ps_check + "' is not a valid answer."  
-      print (settings.print_error_msg(err_msg))
+      print((settings.print_error_msg(err_msg)))
       pass
 
 """
@@ -446,11 +446,11 @@ def check_CGI_scripts(url):
     CGI_SCRIPTS = []
     if not os.path.isfile(settings.CGI_SCRIPTS ):
       err_msg = "The pages / scripts list (" + settings.CGI_SCRIPTS  + ") is not found"
-      print (settings.print_critical_msg(err_msg))
+      print((settings.print_critical_msg(err_msg)))
       raise sys.exit() 
     if len(settings.CGI_SCRIPTS ) == 0:
       err_msg = "The " + settings.CGI_SCRIPTS  + " list is empty."
-      print (settings.print_critical_msg(err_msg))
+      print((settings.print_critical_msg(err_msg)))
       raise sys.exit()
     with open(settings.CGI_SCRIPTS , "r") as f: 
       for line in f:
@@ -458,14 +458,14 @@ def check_CGI_scripts(url):
         CGI_SCRIPTS.append(line)
   except IOError: 
     err_msg = " Check if the " + settings.CGI_SCRIPTS  + " list is readable or corrupted."
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise sys.exit()
 
   for cgi_script in CGI_SCRIPTS:
     if cgi_script in url and menu.options.shellshock == False:
       warn_msg = "URL is probable to contain a script ('" + cgi_script + "') "
       warn_msg += "vulnerable to shellshock. "
-      print (settings.print_warning_msg(warn_msg))
+      print((settings.print_warning_msg(warn_msg)))
       while True:
         if not menu.options.batch:
           question_msg = "Do you want to enable the shellshock injection module? [Y/n] > "
@@ -486,7 +486,7 @@ def check_CGI_scripts(url):
           os._exit(0)
         else:  
           err_msg = "'" + shellshock_check + "' is not a valid answer."  
-          print (settings.print_error_msg(err_msg))
+          print((settings.print_error_msg(err_msg)))
           pass
 
 """
@@ -506,11 +506,11 @@ def check_http_s(url):
         settings.SCHEME = (urllib.parse.quote(url).lower() or "http") if not menu.options.force_ssl else "https"
       else:
         err_msg = "Invalid target URL has been given." 
-        print (settings.print_critical_msg(err_msg))
+        print((settings.print_critical_msg(err_msg)))
         raise sys.exit()
     except ValueError or err:
       err_msg = "Invalid target URL has been given." 
-      print (settings.print_critical_msg(err_msg))
+      print((settings.print_critical_msg(err_msg)))
       raise sys.exit()
   return url
   
@@ -527,7 +527,7 @@ def user_defined_os():
     else:
       err_msg = "You specified wrong value '" + menu.options.os + "' "
       err_msg += "as an operation system. The value, must be 'Windows' or 'Unix'."
-      print (settings.print_critical_msg(err_msg))
+      print((settings.print_critical_msg(err_msg)))
       raise sys.exit()
 
 """
@@ -538,7 +538,7 @@ def identified_os():
     if not menu.options.batch:
       warn_msg = "Heuristics have identified different operating system (" 
       warn_msg += settings.TARGET_OS + ") than that you have provided." 
-      print (settings.print_warning_msg(warn_msg))
+      print((settings.print_warning_msg(warn_msg)))
       question_msg = "How do you want to proceed? [(C)ontinue/(s)kip/(q)uit] > "
       sys.stdout.write(settings.print_question_msg(question_msg))
       proceed_option = sys.stdin.readline().replace("\n","").lower()
@@ -555,7 +555,7 @@ def identified_os():
         raise sys.exit()
     else:
       err_msg = "'" + proceed_option + "' is not a valid answer."  
-      print (settings.print_error_msg(err_msg))
+      print((settings.print_error_msg(err_msg)))
       pass
 
 """
@@ -569,10 +569,10 @@ def third_party_dependencies():
   try:
     import sqlite3
   except ImportError:
-    print ("[" + Fore.RED + " FAILED " + Style.RESET_ALL + "]")
+    print(("[" + Fore.RED + " FAILED " + Style.RESET_ALL + "]"))
     err_msg = settings.APPLICATION + " requires 'sqlite3' third-party library "
     err_msg += "in order to store previous injection points and commands. "
-    print (settings.print_critical_msg(err_msg))
+    print((settings.print_critical_msg(err_msg)))
     raise sys.exit()
 
   try:
@@ -582,26 +582,26 @@ def third_party_dependencies():
       try:
         import pyreadline
       except ImportError:
-        print ("[" + Fore.RED + " FAILED " + Style.RESET_ALL + "]")
+        print(("[" + Fore.RED + " FAILED " + Style.RESET_ALL + "]"))
         err_msg = settings.APPLICATION + " requires 'pyreadline' third-party library "
         err_msg += "in order to be able to take advantage of the TAB "
         err_msg += "completion and history support features. "
-        print (settings.print_critical_msg(err_msg))
+        print((settings.print_critical_msg(err_msg)))
         raise sys.exit()
     else:
       try:
         import gnureadline
       except ImportError:
-        print ("[" + Fore.RED + " FAILED " + Style.RESET_ALL + "]")
+        print(("[" + Fore.RED + " FAILED " + Style.RESET_ALL + "]"))
         err_msg = settings.APPLICATION + " requires 'gnureadline' third-party library "
         err_msg += "in order to be able to take advantage of the TAB "
         err_msg += "completion and history support features. "
-        print (settings.print_critical_msg(err_msg))
+        print((settings.print_critical_msg(err_msg)))
     pass
 
-  print ("[" + Fore.GREEN + " SUCCEED " + Style.RESET_ALL + "]")
+  print(("[" + Fore.GREEN + " SUCCEED " + Style.RESET_ALL + "]"))
   success_msg = "All required third-party (non-core) libraries are seems to be installed."
-  print (settings.print_success_msg(success_msg))
+  print((settings.print_success_msg(success_msg)))
 
 """
 Print the authentiation error message.
@@ -611,7 +611,7 @@ def http_auth_err_msg():
   err_msg += "HTTP authentication credentials (i.e --auth-cred=\"admin:admin\")" 
   err_msg += " or use the '--ignore-401' option to ignore HTTP error 401 (Unauthorized)" 
   err_msg += " and continue tests without providing valid credentials."
-  print (settings.print_critical_msg(err_msg))
+  print((settings.print_critical_msg(err_msg)))
   raise sys.exit()
 
 """
@@ -623,7 +623,7 @@ def identified_http_auth_type(auth_type):
     warn_msg = "Heuristics have identified different HTTP authentication type (" 
     warn_msg += auth_type.lower() + ") than that you have provided ("
     warn_msg += menu.options.auth_type + ")." 
-    print (settings.print_warning_msg(warn_msg))
+    print((settings.print_warning_msg(warn_msg)))
     question_msg = "How do you want to proceed? [(C)ontinue/(s)kip/(q)uit] > "
     sys.stdout.write(settings.print_question_msg(question_msg))
     proceed_option = sys.stdin.readline().replace("\n","").lower()
@@ -640,7 +640,7 @@ def identified_http_auth_type(auth_type):
       raise SystemExit()
   else:
     err_msg = "'" + proceed_option + "' is not a valid answer." 
-    print (settings.print_error_msg(err_msg))
+    print((settings.print_error_msg(err_msg)))
     pass
 
 """
@@ -678,7 +678,7 @@ def wildcard_character(data):
   if data.count(settings.WILDCARD_CHAR) + data.count(settings.INJECT_TAG) > 1:
     err_msg = "You specified more than one testable parameters. " 
     err_msg += "Use the '-p' option to define them (i.e -p \"id1,id2\"). "
-    print (settings.print_critical_msg(err_msg) )
+    print((settings.print_critical_msg(err_msg) ))
     raise sys.exit()
   return data
 
@@ -738,7 +738,7 @@ def print_non_listed_params(check_parameters, http_request_method, header_name):
           warn_msg += ('', ' (JSON)')[settings.IS_JSON] + ('', ' (SOAP/XML)')[settings.IS_XML]  
           warn_msg += (' data', ' request')[http_request_method == "GET"] 
         warn_msg += "."
-        print (settings.print_warning_msg(warn_msg))
+        print((settings.print_warning_msg(warn_msg)))
 
   if menu.options.skip_parameter != None:
     check_skipped_params(check_parameters)
@@ -748,14 +748,14 @@ Lists available tamper scripts
 """
 def list_tamper_scripts():
   info_msg = "Listing available tamper scripts:"
-  print (settings.print_info_msg(info_msg))
+  print((settings.print_info_msg(info_msg)))
   if menu.options.list_tampers:
     for script in sorted(glob.glob(os.path.join(settings.TAMPER_SCRIPTS_PATH, "*.py"))):
       content = open(script, "rb").read()
       match = re.search(r"About:(.*)\n", content)
       if match:
         comment = match.group(1).strip()
-        print (settings.SUB_CONTENT_SIGN + Fore.MAGENTA + os.path.basename(script) + Style.RESET_ALL +  " - " + comment)
+        print((settings.SUB_CONTENT_SIGN + Fore.MAGENTA + os.path.basename(script) + Style.RESET_ALL +  " - " + comment))
 
 """
 Tamper script checker
@@ -773,32 +773,32 @@ def tamper_scripts():
       else:
         err_msg = "The '" + script + "' tamper script does not exist. "
         err_msg += "Use the '--list-tampers' option for listing available tamper scripts."
-        print (settings.print_critical_msg(err_msg))
+        print((settings.print_critical_msg(err_msg)))
         raise sys.exit()
 
     info_msg = "Loading tamper script" + ('s', '')[len(provided_scripts) == 1] + ": "
-    print (settings.print_info_msg(info_msg))
+    print((settings.print_info_msg(info_msg)))
     for script in provided_scripts:
       if "hexencode" or "base64encode" == script:
         settings.MULTI_ENCODED_PAYLOAD.append(script)
       import_script = str(settings.TAMPER_SCRIPTS_PATH + script + ".py").replace("/",".").split(".py")[0]
-      print (settings.SUB_CONTENT_SIGN + import_script.split(".")[3])
+      print((settings.SUB_CONTENT_SIGN + import_script.split(".")[3]))
       try:
         module = __import__(import_script, fromlist=[None])
         if not hasattr(module, "__tamper__"):
           err_msg = "Missing variable '__tamper__' "
           err_msg += "in tamper script '" + import_script.split(".")[0] + "'."
-          print (settings.print_critical_msg(err_msg))
+          print((settings.print_critical_msg(err_msg)))
           raise sys.exit()
       except ImportError or err_msg:
-        print (settings.print_error_msg(str(err_msg) + "."))
+        print((settings.print_error_msg(str(err_msg) + ".")))
         pass
 
     # Using too many tamper scripts is usually not a good idea. :P
     if len(provided_scripts) >= 3 and not settings.LOAD_SESSION:
       warn_msg = "Using too many tamper scripts "
       warn_msg += "is usually not a good idea."
-      print (settings.print_warning_msg(warn_msg))
+      print((settings.print_warning_msg(warn_msg)))
 
 """
 Check if the payload output seems to be hex.
@@ -1065,7 +1065,7 @@ def skip_empty(provided_value, http_request_method):
   warn_msg += "been skipped from testing"
   warn_msg += " (the provided value" + "s"[len(provided_value.split(",")) == 1:][::-1]
   warn_msg += (' are ', ' is ')[len(provided_value.split(",")) == 1] + "empty). "
-  print (settings.print_warning_msg(warn_msg))
+  print((settings.print_warning_msg(warn_msg)))
 
 """
 Check if the provided value is empty.
@@ -1087,7 +1087,7 @@ def is_empty(multi_parameters, http_request_method):
     except IndexError:
       if not settings.IS_XML:
         err_msg = "No parameter(s) found for testing in the provided data."
-        print (settings.print_critical_msg(err_msg))
+        print((settings.print_critical_msg(err_msg)))
         raise SystemExit()
         
   provided_value = ", ".join(provided_value)
@@ -1101,7 +1101,7 @@ def is_empty(multi_parameters, http_request_method):
       warn_msg += (' are ', ' is ')[len(provided_value.split(",")) == 1] + "empty. "
       warn_msg += "Use valid "
       warn_msg += "values to run properly."
-      print (settings.print_warning_msg(warn_msg))
+      print((settings.print_warning_msg(warn_msg)))
       return True
 
 # Check if valid SOAP/XML
@@ -1123,7 +1123,7 @@ def process_xml_data():
       xml_process = sys.stdin.readline().replace("\n","").lower()
     else:
       if settings.VERBOSITY_LEVEL >= 1:
-        print (settings.print_success_msg(success_msg))
+        print((settings.print_success_msg(success_msg)))
       xml_process = ""
     if len(xml_process) == 0:
        xml_process = "y"              
@@ -1136,7 +1136,7 @@ def process_xml_data():
       raise SystemExit()
     else:
       err_msg = "'" + xml_process + "' is not a valid answer."  
-      print (settings.print_error_msg(err_msg))
+      print((settings.print_error_msg(err_msg)))
       pass
 
 # Check if valid JSON
@@ -1149,7 +1149,7 @@ def is_JSON_check(parameter):
   except ValueError or err_msg:
     if not "No JSON object could be decoded" in err_msg:
       err_msg = "JSON " + str(err_msg) + ". "
-      print (settings.print_critical_msg(err_msg) + "\n")
+      print((settings.print_critical_msg(err_msg) + "\n"))
       raise sys.exit()
     return False
 
@@ -1164,7 +1164,7 @@ def process_json_data():
       json_process = sys.stdin.readline().replace("\n","").lower()
     else:
       if settings.VERBOSITY_LEVEL >= 1:
-        print (settings.print_success_msg(success_msg))
+        print((settings.print_success_msg(success_msg)))
       json_process = ""
     if len(json_process) == 0:
        json_process = "y"              
@@ -1177,7 +1177,7 @@ def process_json_data():
       raise SystemExit()
     else:
       err_msg = "'" + json_process + "' is not a valid answer."  
-      print (settings.print_error_msg(err_msg))
+      print((settings.print_error_msg(err_msg)))
       pass
 
 """
@@ -1187,7 +1187,7 @@ def inappropriate_format(multi_parameters):
   err_msg = "The provided parameter" + "s"[len(multi_parameters) == 1:][::-1]
   err_msg += (' are ', ' is ')[len(multi_parameters) == 1]
   err_msg += "not in appropriate format."
-  print (settings.print_critical_msg(err_msg))
+  print((settings.print_critical_msg(err_msg)))
   raise sys.exit()
 
 """
@@ -1221,11 +1221,11 @@ def generate_char_pool(num_of_chars):
   else:
     if num_of_chars == 1:
       # Checks {A..Z},{a..z},{0..9},{Symbols}
-      char_pool = range(65, 90) + range(96, 122)
+      char_pool = list(range(65, 90)) + list(range(96, 122))
     else:
       # Checks {a..z},{A..Z},{0..9},{Symbols}
-      char_pool = range(96, 122) + range(65, 90)
-    char_pool = char_pool + range(48, 57) + range(32, 48) + range(90, 96)  + range(57, 65)  + range(122, 127)  
+      char_pool = list(range(96, 122)) + list(range(65, 90))
+    char_pool = char_pool + list(range(48, 57)) + list(range(32, 48)) + list(range(90, 96))  + list(range(57, 65))  + list(range(122, 127))  
   return char_pool
 
 """
@@ -1264,7 +1264,7 @@ def file_upload():
             ip_check = simple_http_server.is_valid_ipv4(ip_addr)
             if ip_check == False:
               err_msg = "The provided IP address seems not valid."  
-              print (settings.print_error_msg(err_msg))
+              print((settings.print_error_msg(err_msg)))
               pass
             else:
               settings.LOCAL_HTTP_IP = ip_addr
@@ -1273,12 +1273,12 @@ def file_upload():
         # Check for invalid HTTP server's port.
         if settings.LOCAL_HTTP_PORT < 1 or settings.LOCAL_HTTP_PORT > 65535:
           err_msg = "Invalid HTTP server's port (" + str(settings.LOCAL_HTTP_PORT) + ")." 
-          print (settings.print_critical_msg(err_msg))
+          print((settings.print_critical_msg(err_msg)))
           raise SystemExit()
         
         http_server = "http://" + str(settings.LOCAL_HTTP_IP) + ":" + str(settings.LOCAL_HTTP_PORT)
         info_msg = "Setting the HTTP server on '" + http_server + "/'. "  
-        print (settings.print_info_msg(info_msg))
+        print((settings.print_info_msg(info_msg)))
         menu.options.file_upload = http_server + "/" + menu.options.file_upload
         simple_http_server.main()
         break
@@ -1286,14 +1286,14 @@ def file_upload():
       elif enable_HTTP_server in settings.CHOICE_NO:
         if not re.match(settings.VALID_URL_FORMAT, menu.options.file_upload):
           err_msg = "The '" + menu.options.file_upload + "' is not a valid URL. "
-          print (settings.print_critical_msg(err_msg))
+          print((settings.print_critical_msg(err_msg)))
           raise SystemExit()
         break  
       elif enable_HTTP_server in settings.CHOICE_QUIT:
         raise SystemExit()
       else:
         err_msg = "'" + enable_HTTP_server + "' is not a valid answer."  
-        print (settings.print_error_msg(err_msg))
+        print((settings.print_error_msg(err_msg)))
         pass
 
 """
@@ -1304,20 +1304,20 @@ def check_wrong_flags():
     if menu.options.is_root :
       warn_msg = "Swithing '--is-root' to '--is-admin' because the "
       warn_msg += "target has been identified as windows."
-      print (settings.print_warning_msg(warn_msg))
+      print((settings.print_warning_msg(warn_msg)))
     if menu.options.passwords:
       warn_msg = "The '--passwords' option, is not yet available for Windows targets."
-      print (settings.print_warning_msg(warn_msg))  
+      print((settings.print_warning_msg(warn_msg)))  
     if menu.options.file_upload :
       warn_msg = "The '--file-upload' option, is not yet available for windows targets. "
       warn_msg += "Instead, use the '--file-write' option."
-      print (settings.print_warning_msg(warn_msg))  
+      print((settings.print_warning_msg(warn_msg)))  
       raise SystemExit()
   else: 
     if menu.options.is_admin : 
       warn_msg = "Swithing the '--is-admin' to '--is-root' because "
       warn_msg += "the target has been identified as unix-like. "
-      print (settings.print_warning_msg(warn_msg))
+      print((settings.print_warning_msg(warn_msg)))
 
 """
 Define python working dir (for windows targets)
@@ -1344,7 +1344,7 @@ def define_py_working_dir():
         break
       else:
         err_msg = "'" + python_dir + "' is not a valid answer."  
-        print (settings.print_error_msg(err_msg))
+        print((settings.print_error_msg(err_msg)))
         pass
     settings.USER_DEFINED_PYTHON_DIR = True
 
