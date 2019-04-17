@@ -24,11 +24,13 @@ with open('commi3.py') as f:
   author='Chris Pro',
   description='is an Automated Commando Line Tool for pentest',
   long_description=__doc__,
+  url="https://github.com/VanirLab/commi3",
   #ext_modules=[Extension('commi3',sources=['settings.c'])], #Import your own C/C++ packages
   #packages=['src'],
   package_dir={'':'src/utils'},
   package_data={'': ['core/*.py']},
   include_package_data=True,
+  packages=setuptools.find_packages()
   zip_safe=False,
   platforms='any',
   install_requires=[
