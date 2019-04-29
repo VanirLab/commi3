@@ -137,7 +137,7 @@ def sys_argv_errors():
         print((print_critical_msg(err_msg)))
         raise SystemExit()
     # Check for illegal (non-console) comma characters.
-    if len(sys.argv[i]) > 1 and "\uff0c" in sys.argv[i].split('=', 1)[-1]:
+    if len(sys.argv[i]) > 1 and "\\uff0c" in sys.argv[i].split('=', 1)[-1]:
         err_msg = "Illegal (non-console) comma character ('" + sys.argv[i] + "')."
         print((print_critical_msg(err_msg)))
         raise SystemExit()
@@ -359,6 +359,17 @@ WIN_FILE_READ = "type "
 
 # Write file
 FILE_WRITE = "echo "
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '6j#h#1hd5u3%zu4-a5pzc9^)a$88pn6**_q%nxc))9+89j-rtr'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+#Project root
+
 
 # Write file
 FILE_UPLOAD = "wget "
