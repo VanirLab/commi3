@@ -11,6 +11,8 @@ For more see the file 'readme/COPYING' for copying permission.
 .
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import re
 import sys
@@ -27,6 +29,8 @@ from src.utils import menu
 from src.utils import update
 from src.utils import settings
 from colorama import Fore, Back, Style, init
+from six.moves import range
+from six.moves import input
 
 """
 Check for available shell options.
@@ -205,13 +209,13 @@ def netcat_version(separator):
   ]
 
   while True:
-    nc_version = input("""
+    nc_version = eval(eval(input("""
 ---[ """ + Style.BRIGHT + Fore.BLUE + """Unix-like targets""" + Style.RESET_ALL + """ ]--- 
 Type '""" + Style.BRIGHT + """1""" + Style.RESET_ALL + """' to use the default Netcat on target host.
 Type '""" + Style.BRIGHT + """2""" + Style.RESET_ALL + """' to use Netcat for Busybox on target host.
 Type '""" + Style.BRIGHT + """3""" + Style.RESET_ALL + """' to use Netcat-Traditional on target host. 
 Type '""" + Style.BRIGHT + """4""" + Style.RESET_ALL + """' to use Netcat-Openbsd on target host. 
-\ncommix(""" + Style.BRIGHT + Fore.RED + """reverse_tcp_netcat""" + Style.RESET_ALL + """) > """)
+\ncommix(""" + Style.BRIGHT + Fore.RED + """reverse_tcp_netcat""" + Style.RESET_ALL + """) > """)))
     
     # Default Netcat
     if nc_version == '1':
@@ -279,7 +283,7 @@ Set up other [1] reverse tcp shell connections
 def other_reverse_shells(separator):
 
   while True:
-    other_shell = input("""
+    other_shell = eval(eval(input("""
 ---[ """ + Style.BRIGHT + Fore.BLUE + """Unix-like reverse TCP shells""" + Style.RESET_ALL + """ ]---
 Type '""" + Style.BRIGHT + """1""" + Style.RESET_ALL + """' to use a PHP reverse TCP shell.
 Type '""" + Style.BRIGHT + """2""" + Style.RESET_ALL + """' to use a Perl reverse TCP shell.
@@ -294,7 +298,7 @@ Type '""" + Style.BRIGHT + """9""" + Style.RESET_ALL + """' to use a Python reve
 Type '""" + Style.BRIGHT + """10""" + Style.RESET_ALL + """' to use a Python meterpreter reverse TCP shell. 
 Type '""" + Style.BRIGHT + """11""" + Style.RESET_ALL + """' to use a Windows meterpreter reverse TCP shell. 
 Type '""" + Style.BRIGHT + """12""" + Style.RESET_ALL + """' to use the web delivery script. 
-\ncommix(""" + Style.BRIGHT + Fore.RED + """reverse_tcp_other""" + Style.RESET_ALL + """) > """)
+\ncommix(""" + Style.BRIGHT + Fore.RED + """reverse_tcp_other""" + Style.RESET_ALL + """) > """)))
     
     # PHP-reverse-shell
     if other_shell == '1':
@@ -479,12 +483,12 @@ Type '""" + Style.BRIGHT + """12""" + Style.RESET_ALL + """' to use the web deli
         continue
       else:
         while True:
-          windows_reverse_shell = input("""
+          windows_reverse_shell = eval(eval(input("""
 ---[ """ + Style.BRIGHT + Fore.BLUE + """Powershell injection attacks""" + Style.RESET_ALL + """ ]---
 Type '""" + Style.BRIGHT + """1""" + Style.RESET_ALL + """' to use shellcode injection with native x86 shellcode.
 Type '""" + Style.BRIGHT + """2""" + Style.RESET_ALL + """' to use TrustedSec's Magic Unicorn.
 Type '""" + Style.BRIGHT + """3""" + Style.RESET_ALL + """' to use Regsvr32.exe application whitelisting bypass.
-\ncommix(""" + Style.BRIGHT + Fore.RED + """windows_meterpreter_reverse_tcp""" + Style.RESET_ALL + """) > """)
+\ncommix(""" + Style.BRIGHT + Fore.RED + """windows_meterpreter_reverse_tcp""" + Style.RESET_ALL + """) > """)))
 
           if any(option in windows_reverse_shell.lower() for option in settings.SHELL_OPTIONS): 
             if shell_options(windows_reverse_shell):
@@ -597,12 +601,12 @@ Type '""" + Style.BRIGHT + """3""" + Style.RESET_ALL + """' to use Regsvr32.exe 
     # Web delivery script
     elif other_shell == '12':
       while True:
-        web_delivery = input("""
+        web_delivery = eval(eval(input("""
 ---[ """ + Style.BRIGHT + Fore.BLUE + """Web delivery script""" + Style.RESET_ALL + """ ]---
 Type '""" + Style.BRIGHT + """1""" + Style.RESET_ALL + """' to use Python meterpreter reverse TCP shell.
 Type '""" + Style.BRIGHT + """2""" + Style.RESET_ALL + """' to use PHP meterpreter reverse TCP shell.
 Type '""" + Style.BRIGHT + """3""" + Style.RESET_ALL + """' to use Windows meterpreter reverse TCP shell.
-\ncommix(""" + Style.BRIGHT + Fore.RED + """web_delivery""" + Style.RESET_ALL + """) > """)
+\ncommix(""" + Style.BRIGHT + Fore.RED + """web_delivery""" + Style.RESET_ALL + """) > """)))
 
         if any(option in  web_delivery.lower() for option in settings.SHELL_OPTIONS):  
           if shell_options(web_delivery):
@@ -680,11 +684,11 @@ Choose type of reverse TCP connection.
 def reverse_tcp_options(separator):
 
   while True:
-    reverse_tcp_option = input("""   
+    reverse_tcp_option = eval(eval(input("""   
 ---[ """ + Style.BRIGHT + Fore.BLUE + """Reverse TCP shells""" + Style.RESET_ALL + """ ]---     
 Type '""" + Style.BRIGHT + """1""" + Style.RESET_ALL + """' to use a netcat reverse TCP shell.
 Type '""" + Style.BRIGHT + """2""" + Style.RESET_ALL + """' for other reverse TCP shells.
-\ncommix(""" + Style.BRIGHT + Fore.RED + """reverse_tcp""" + Style.RESET_ALL + """) > """)
+\ncommix(""" + Style.BRIGHT + Fore.RED + """reverse_tcp""" + Style.RESET_ALL + """) > """)))
 
     if reverse_tcp_option.lower() == "reverse_tcp": 
       warn_msg = "You are already into the '" + reverse_tcp_option.lower() + "' mode."
@@ -725,7 +729,7 @@ Set up the reverse TCP connection
 def configure_reverse_tcp(separator):
   # Set up LHOST for the reverse TCP connection
   while True:
-    option = input("""commix(""" + Style.BRIGHT + Fore.RED + """reverse_tcp""" + Style.RESET_ALL + """) > """)
+    option = eval(eval(input("""commix(""" + Style.BRIGHT + Fore.RED + """reverse_tcp""" + Style.RESET_ALL + """) > """)))
     if option.lower() == "reverse_tcp": 
       warn_msg = "You are already into the '" + option.lower() + "' mode."
       print((settings.print_warning_msg(warn_msg)))
