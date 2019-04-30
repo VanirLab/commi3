@@ -83,6 +83,14 @@ Commi3 also comes **as a plugin**, on the following penetration testing framewor
 
 ```
 
+## Creating an sdist or zip
+
+python setup.py sdist
+
+For Windows users:
+python setup.py bdist --format=wininst
+
+
 ## Usage
 
 To get a list of all options and switches use:
