@@ -13,4 +13,4 @@ html5lib
 requests
 pyfiglet
 future
-Pysocks
+PySocks
