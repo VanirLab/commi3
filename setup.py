@@ -10,7 +10,7 @@ For more see the file 'readme/COPYING' for copying permission.
 import re
 import os
 import ast
-from setuptools import setup, Extension
+from setuptools import setup, find_packages, Extension
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
