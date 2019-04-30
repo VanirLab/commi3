@@ -34,7 +34,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
   long_description=README,
   url="https://github.com/VanirLab/commi3",
   #ext_modules=[Extension('commi3',sources=['settings.c'])], #Import your own C/C++ packages
-  #packages=['src'],
+  packages=find_packages(),
   package_dir={'':'src/utils'},
   package_data={'': ['core/*.py']},
   include_package_data=True,
