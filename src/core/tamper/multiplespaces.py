@@ -9,6 +9,7 @@ Copyright (c) 2019.
 For more see the file 'readme/COPYING' for copying permission.
 """
 
+from __future__ import absolute_import
 import random
 from src.utils import settings
 

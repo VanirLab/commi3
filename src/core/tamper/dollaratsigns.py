@@ -8,6 +8,8 @@ Copyright (c) 2019.
 
 For more see the file 'readme/COPYING' for copying permission.
 """
+from __future__ import absolute_import
+from __future__ import print_function
 import re
 import sys
 from src.utils import settings
@@ -35,7 +37,7 @@ def tamper(payload):
             "$@c$@ha$@r": "char"
           }
     payload = re.sub(r'([b-zD-Z])', r"$@\1", payload)
-    rep = dict((re.escape(k), v) for k, v in rep.items())
+    rep = dict((re.escape(k), v) for k, v in list(rep.items()))
     pattern = re.compile("|".join(list(rep.keys())))
     payload = pattern.sub(lambda m: rep[re.escape(m.group(0))], payload)
     return payload

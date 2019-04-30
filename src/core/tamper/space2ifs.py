@@ -8,6 +8,8 @@ Copyright (c) 2019.
 For more see the file 'readme/COPYING' for copying permission.
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 from src.utils import settings
 
