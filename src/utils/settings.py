@@ -9,6 +9,8 @@ Copyright (c) 2019.
 For more see the file 'readme/COPYING' for copying permission.
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import re
 import os
 import sys
@@ -25,6 +27,7 @@ from socket import error as socket_error
         
 from colorama import Fore, Back, Style, init
 import importlib
+from six.moves import range
 
 # Status Signs
 SUCCESS_SIGN = "[" + Fore.GREEN + Style.BRIGHT + "+" + Style.RESET_ALL + "] "
@@ -238,10 +241,10 @@ IS_WINDOWS = PLATFORM == "nt"
 PYVERSION = sys.version.split()[0]
 
 # Git URL.
-GIT_URL = "https://github.com/commixproject/" + APPLICATION + ".git"
+GIT_URL = "https://github.com/VanirLab/commi3/" + APPLICATION + ".git"
 
 # Git issue URL.
-ISSUES_PAGE = "https://github.com/commixproject/" + APPLICATION + "/issues/new"
+ISSUES_PAGE = "https://github.com/VanirLab/commi3/" + APPLICATION + "/issues/new"
 
 # Output Directory
 OUTPUT_DIR = ".output/"  
@@ -686,7 +689,7 @@ CRAWL_EXCLUDE_EXTENSIONS = [
 
 TARGET_APPLICATION = ""
 # Unsupported target application(s) [1]
-# [1] https://github.com/commixproject/commix/wiki/Target-applications
+# [1] https://github.com/VanirLab/commi3/wiki/Target-applications
 UNSUPPORTED_TARGET_APPLICATION = [ 
     ""
 ]
