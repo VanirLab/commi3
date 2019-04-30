@@ -35,11 +35,10 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
   url="https://github.com/VanirLab/commi3",
   #ext_modules=[Extension('commi3',sources=['settings.c'])], #Import your own C/C++ packages
   packages=find_packages(),
-  package_dir={'':'src/utils'},
-  package_data={'': ['core/*.py']},
   include_package_data=True,
   #packages=setuptools.find_packages(),
   zip_safe=False,
+  scripts=["commi3"],
   platforms='any',
   install_requires=[
   'colorama',
