@@ -1,14 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: UTF-8
 
 """
 This file is part of Commi3 Vanir Project.
 Copyright (c) 2019.
-
-
+ 
 For more see the file 'readme/COPYING' for copying permission.
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import re
 import sys
 import errno
@@ -76,9 +77,9 @@ def grab_ip_addr():
   except socket_error or err_msg:
     if errno.ECONNREFUSED:
       warn_msg = "Internet seems unreachable."
-      print (settings.print_warning_msg(warn_msg))
+      print((settings.print_warning_msg(warn_msg)))
     else:
-      print (settings.print_critical_msg(str(err_msg)) + "\n")
+      print((settings.print_critical_msg(str(err_msg)) + "\n"))
       raise sys.exit()
 
 class Handler(BaseHTTPRequestHandler):
@@ -92,7 +93,7 @@ class Handler(BaseHTTPRequestHandler):
         f.close()
 
       except IOError:
-        self.wfile.write(settings.APPLICATION + " " + settings.VERSION + " (https://commixproject.com)")
+        self.wfile.write(settings.APPLICATION + " " + settings.VERSION + " (https://https://github.com/VanirLab/commi3)")
       
     def log_message(self, format, *args):
       return
