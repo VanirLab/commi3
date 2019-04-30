@@ -1,12 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: UTF-8
 
 """
-This file is part of Commix Project (https://commixproject.com).
-Copyright (c) 2019 Chris Pro.
-
+This file is part of Commi3 Vanir Project.
+Copyright (c) 2019.
+ 
+For more see the file 'readme/COPYING' for copying permission.
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import re
 import sys
