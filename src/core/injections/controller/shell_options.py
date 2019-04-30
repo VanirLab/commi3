@@ -1,13 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: UTF-8
 
 """
-This file is part of Commix Project (https://commixproject.com).
-Copyright (c) 2019 Chris Pro.
-
-
+This file is part of Commi3 Vanir Project.
+Copyright (c) 2019.
+ 
+For more see the file 'readme/COPYING' for copying permission.
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import re
 import os
 import sys
@@ -155,7 +157,7 @@ def reverse_tcp_config(separator, TAG, cmd, prefix, suffix, whitespace, http_req
     execute_shell(separator, TAG, cmd, prefix, suffix, whitespace, http_request_method, url, vuln_parameter, alter_shell, filename, os_shell_option, payload, OUTPUT_TEXTFILE)
 
 """
-Check commix shell options
+Check commi3 shell options
 """
 def check_option(separator, TAG, cmd, prefix, suffix, whitespace, http_request_method, url, vuln_parameter, alter_shell, filename, technique, go_back, no_result, timesec, go_back_again, payload, OUTPUT_TEXTFILE):
   os_shell_option = checks.check_os_shell_options(cmd.lower(), technique, go_back, no_result) 
