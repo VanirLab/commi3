@@ -7,7 +7,8 @@
     <a href="https://github.com/VanirLab/commi3/blob/master/readme/COPYING"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-red.svg"></a>
 <a href='https://semaphoreci.com/vanirlab/commi3'> <img src='https://semaphoreci.com/api/v1/vanirlab/commi3/branches/master/badge.svg' alt='Build Status'></a>
 <a href="https://badge.fury.io/py/Commi3"><img src="https://badge.fury.io/py/Commi3.svg" alt="PyPI version" height="18"></a>
-														       
+<a href="https://circleci.com/gh/VanirLab/commi3"> <img
+src="https://circleci.com/gh/VanirLab/commi3/tree/master.svg?style=svg" height="18"></a>
   </p>
 </p>
 
